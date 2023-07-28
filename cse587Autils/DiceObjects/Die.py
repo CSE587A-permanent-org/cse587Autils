@@ -44,10 +44,9 @@ class Die:
     True
     """
 
-    _face_weights: List[float] = []
-
     def __init__(self, face_weights: List[float] = None):
         """See class docstring for details"""
+        self._face_weights = []
         logger.debug('constructing Dice object with '
                      'face_weights: %s', face_weights)
         if face_weights is not None:
