@@ -5,6 +5,9 @@ description = "A set of classes and functions to be used in CSE 587A"
 authors = ["chase mateusiak <chase.mateusiak@gmail.com>"]
 license = "GPL-3.0-or-later"
 readme = "README.md"
+packages = [
+    { include = "cse587Autils" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -19,6 +22,7 @@ ipykernel = "^6.25.0"
 autopep8 = "^2.0.2"
 pytest = "^7.4.0"
 flake8 = "^6.0.0"
+furo = "^2023.7.26"
 
 [build-system]
 requires = ["poetry-core"]

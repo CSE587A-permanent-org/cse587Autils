@@ -32,7 +32,6 @@ class BagOfDice:
     2
     >>> my_bag[0][0] # The die weight of the first die.
     0.5
-
     # The face weights of the first die, rounded to 2 decimal places.
     >>> [round(prob, 2) for prob in my_bag[0][1]]
     [0.17, 0.17, 0.17, 0.17, 0.17, 0.17]
@@ -41,17 +40,16 @@ class BagOfDice:
     True
     """
 
-    _die_weights: List[float] = []
-    _dice: List[Die] = []
-
     def __init__(self,
                  die_weights: List[float] = None,
                  dice: List[Die] = None) -> None:
         """
         See class docstring for details
         """
-        logger.debug('constructing BagOfDice object with '
-                     'die_probabilties: %s, dice: %s')
+        self._die_weights = []
+        self._dice = []
+        logger.debug('constructing BagOfDice object with die_probabilties: '
+                     '%s, dice: %s', die_weights, dice)
         if die_weights is not None:
             self.die_weights = die_weights
         if dice is not None:
@@ -133,8 +131,8 @@ class BagOfDice:
         :return: The number of dice
         :rtype: int
 
-        Examples
-        --------
+        BagOfDice Length Examples
+        -------------------------
         >>> fair_die = Die([1/6]*6)
         >>> biased_die = Die([0.9, 0.1])
         >>> my_bag = BagOfDice([0.5, 0.5], [fair_die, biased_die])
@@ -153,8 +151,8 @@ class BagOfDice:
         :return: The die_weight and face_weights of the die at the given index
         :rtype: tuple of float and list of float
 
-        Examples
-        --------
+        BagOfDice Item Getter Examples
+        ------------------------------
         >>> fair_die = Die([1/6]*6)
         >>> biased_die = Die([0.9, 0.1])
         >>> my_bag = BagOfDice([0.4, 0.6], [fair_die, biased_die])
@@ -186,8 +184,8 @@ class BagOfDice:
         :return: The difference in die weights
         :rtype: BagOfDice
 
-        Examples
-        --------
+        BagOfDice Difference Operator Examples
+        --------------------------------------
         >>> fair_die = Die([1/6]*6)
         >>> biased_die = Die([0.9, 0.1])
         >>> my_bag = BagOfDice([0.5, 0.5], [fair_die, biased_die])
@@ -238,8 +236,8 @@ class BagOfDice:
         :rtype: Die
         :raises StopIteration: If there are no more dice to return
 
-        Examples
-        --------
+        BagOfDice Next/Iterator Examples
+        --------------------------------
         >>> fair_die = Die([1/6]*6)
         >>> biased_die = Die([0.9, 0.1])
         >>> my_bag = BagOfDice([0.5, 0.5], [fair_die, biased_die])
@@ -277,14 +275,17 @@ class BagOfDice:
         :type num_rolls: int
         :param seed: The random seed
         :type seed: int, optional
-        :return: The face counts which result from rolling the drawn die 
+        :return: The face counts which result from rolling the drawn die
           `num_rolls` times
         :rtype: dict of int and int
 
         :raises ValueError: If the number of rolls is less than 1
 
-        Examples
-        --------
+        .. _draw-examples:
+
+        Draw Examples
+        -------------
+
         >>> import numpy as np
         >>> np.random.seed(42)
         >>> fair_die = Die([1/6]*6)
@@ -325,20 +326,21 @@ class BagOfDice:
         dice.
 
         :param observed_data: A list of observed bin counts where each element
-            of the list is a list of observed face counts where the index of each
-            element corresponds to the face, and the count is the number of times
-            that face was observed. The sum of the counts is the number of times
-            the di was rolled.
-        :type observed_data: List[NDArray[np.int_]]
-        :param bag_of_dice: The bag of dice.
-        :type bag_of_dice: BagOfDice
-        :return: The likelihood of the observed bin counts given the bag of dice.
+            of the list is a list of observed face counts where the index of
+            each element corresponds to the face, and the count is the number
+            of times that face was observed. The sum of the counts is the
+            number of times the die was rolled.
+        :return: The likelihood of the observed bin counts given the bag of
+            dice.
         :rtype: float
 
-        Examples
-        --------
-        >>> from probabilitysolutions.DiceObjects.Die import Die
-        >>> from probabilitysolutions.DiceObjects.BagOfDice import BagOfDice
+        .. _likelihood-examples:
+
+        Likelihood Examples
+        -------------------
+
+        >>> from cse587Autils.DiceObjects.Die import Die
+        >>> from cse587Autils.DiceObjects.BagOfDice import BagOfDice
         >>> from numpy import array
         >>> fair_die = Die([1/6]*6)
         >>> biased_die = Die([0.9, 0.1])

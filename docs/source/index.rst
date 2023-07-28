@@ -10,7 +10,7 @@ Welcome to cse587Autils's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+   DiceObjects/index
 
 Indices and tables
 ==================

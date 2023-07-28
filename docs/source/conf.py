@@ -5,24 +5,45 @@
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
+import os
+import sys
+sys.path.insert(0, os.path.abspath('../..'))
 
 project = 'cse587Autils'
 copyright = '2023, Chase Mateusiak'
-author = 'Chase Mateusiak'
-release = '20230728'
+author = 'Michael Brent, Chase Mateusiak'
+release = '0.1.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = []
+extensions = ['sphinx.ext.autodoc',
+              'sphinx.ext.viewcode',
+              'sphinx.ext.autosectionlabel',
+              'sphinx.ext.doctest',
+              'sphinx.ext.inheritance_diagram',
+              'sphinx.ext.intersphinx',
+              'nbsphinx']
+
+exclude_patterns = ['build', '**.ipynb_checkpoints', '**/~', '**/.~']
+
+
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3', None),
+    'numpy': ('https://numpy.org/doc/stable/', None),
+}
+
+# Automatically extract typehints when specified and place them in
+# descriptions of the relevant function/method.
+autodoc_typehints = "description"
+
+# Don't show class signature with the class' name.
+autodoc_class_signature = "separated"
 
 templates_path = ['_templates']
-exclude_patterns = []
-
-
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'alabaster'
+html_theme = 'furo'
 html_static_path = ['_static']

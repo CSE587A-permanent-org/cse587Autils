@@ -82,8 +82,8 @@ class Die:
         :return: The representation of the `Die` object
         :rtype: str
 
-        Examples
-        --------
+        Die Print Examples
+        ------------------
         >>> face_weights = [1/6]*6
         >>> my_die = Die(face_weights)
         >>> my_die
@@ -99,8 +99,8 @@ class Die:
         :return: The length of the face weights
         :rtype: int
 
-        Examples
-        --------
+        Die Length Examples
+        -------------------
         >>> face_weights = [1/6]*6
         >>> my_die = Die(face_weights)
         >>> len(my_die)
@@ -119,8 +119,8 @@ class Die:
         :return: The probability of the face at the given index
         :rtype: float
 
-        Examples
-        --------
+        Die Item Getter Examples
+        ------------------------
         >>> face_weights = [1/6]*6
         >>> my_die = Die(face_weights)
         >>> my_die[0]
@@ -146,8 +146,8 @@ class Die:
         :raise TypeError: If the other Die is not a Die
         :raise ValueError: If the other Die has a different number of faces
 
-        Examples
-        --------
+        Die Difference Operator Examples
+        --------------------------------
         >>> face_weights = [1/6]*6
         >>> my_die = Die(face_weights)
         >>> other_die = Die(face_weights)
@@ -171,8 +171,8 @@ class Die:
         :return: The result of rolling the die
         :rtype: int
 
-        Examples
-        --------
+        Die Roll Examples
+        -----------------
         >>> import numpy as np
         >>> np.random.seed(42)
         >>> face_weights = [1/6]*6
@@ -187,23 +187,24 @@ class Die:
     def expectation(self,
                     observed_data: NDArray[np.int_]) -> NDArray[np.float_]:
         """Calculate the probability of the observed data given the Die 
-        face weights.
+            face weights.
 
         :param observed_data: A list of observed face counts where the index
-        of each element corresponds to the face, and the count is the number
-        of times that face was observed. The sum of the counts is the number
-        of times the die was rolled.
-        :type observed_data: NDArray[np.int_]
-        :return: The probability of the observed data given the Die face
-        weights.
-        :rtype: NDArray[np.float_]
+            of each element corresponds to the face, and the count is the
+            number of times that face was observed. The sum of the counts is
+            the number of times the die was rolled.
+        :type observed_data: NDArray[:py:class:`numpy.int_`]
 
-        :raises TypeError: If the face counts is not a
-        numpy array or a base python list.
+        :return: The probability of the observed data given the Die face 
+            weights.
+        :rtype: NDArray[:py:class:`numpy.float_`]
+
+        :raises TypeError: If the face counts is not a 
+            numpy array or a base python list.
         :raises ValueError: If the face counts is an empty list.
 
-        Example
-        -------
+        Die Expectation Example
+        -----------------------
         >>> from numpy import array
         >>> face_counts = array([1, 0, 0, 0, 0])
         >>> face_probs = [1/6] * len(face_counts)
@@ -227,24 +228,25 @@ class Die:
         return result
 
     def likelihood(self, observed_data: NDArray[np.int_]) -> List[float]:
-        """Calculate the likelihood of the observed data given the Die
-          face weights.
+        """Calculate the likelihood of the observed data given the Die 
+            face weights.
 
-        :param observed_data: A list of observed face counts where the index 
-        of each element corresponds to the face, and the count is the number 
-        of times that face was observed. The sum of the counts is the number 
-        of times the die was rolled.
-        :type observed_data: NDArray[np.int_]
+        :param observed_data: A list of observed face counts where the index
+            of each element corresponds to the face, and the count is
+            the number of times that face was observed. The sum of the counts
+            is the number of times the die was rolled.
+        :type observed_data: NDArray[:py:class:`numpy.int_`]
+
         :return: The likelihood of the observed bin counts given the 
-        face probabilities.
+            face probabilities.
         :rtype: float
 
-        :raises TypeError: If the face counts is not a
-        numpy array or a base python list.
+        :raises TypeError: If the face counts is not a 
+            numpy array or a base python list.
         :raises ValueError: If the face counts is an empty list.
 
-        Example
-        -------
+        Die Likelihood Example
+        ----------------------
         >>> from numpy import array
         >>> face_counts = array([1, 0, 0, 0, 0])
         >>> face_probs = [1/6] * len(face_counts)
