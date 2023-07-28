@@ -47,3 +47,4 @@ templates_path = ['_templates']
 
 html_theme = 'furo'
 html_static_path = ['_static']
+html_theme_path = ['.']
