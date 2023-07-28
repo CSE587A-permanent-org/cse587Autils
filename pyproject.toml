@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "cse587Autils"
 version = "0.1.0"
-description = "A set of classes and functions to be used in"
+description = "A set of classes and functions to be used in CSE 587A"
 authors = ["chase mateusiak <chase.mateusiak@gmail.com>"]
 readme = "README.md"
 
