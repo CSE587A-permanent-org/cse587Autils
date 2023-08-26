@@ -1,3 +1,9 @@
+# 1.2.0
+
+Key Points
+
+- removing unnecessary input check on safe_exponentiate
+
 # 1.1.0
 
 Key points
