@@ -112,10 +112,9 @@ class Die:
         >>> face_probs = [1/6]*6
         >>> my_die = Die(face_probs)
         >>> my_die
-        Die([0.16666666666666666, 0.16666666666666666, 0.16666666666666666,
-            0.16666666666666666, 0.16666666666666666, 0.16666666666666666])
+        Die([0.1667, 0.1667, 0.1667, 0.1667, 0.1667, 0.1667])
         """
-        return f'Die({self.face_probs})'
+        return f'Die({[round(x,4) for x in self.face_probs]})'
 
     def __len__(self) -> int:
         """
@@ -209,49 +208,6 @@ class Die:
             np.random.seed(seed)
         return np.random.choice(range(len(self)), p=self.face_probs)
 
-    def expectation(self,
-                    observed_data: NDArray[np.int_]) -> NDArray[np.float_]:
-        """Calculate the probability of the observed data given the Die 
-            face probabilities (face_probs).
-
-        :param observed_data: A list of observed face counts where the index
-            of each element corresponds to the face, and the count is the
-            number of times that face was observed. The sum of the counts is
-            the number of times the die was rolled.
-        :type observed_data: NDArray[:py:class:`numpy.int_`]
-
-        :return: The probability of the observed data given the Die face 
-            probability.
-        :rtype: NDArray[:py:class:`numpy.float_`]
-
-        :raises TypeError: If the face counts is not a 
-            numpy array or a base python list.
-        :raises ValueError: If the face counts is an empty list.
-
-        Die Expectation Example
-        -----------------------
-        >>> from numpy import array
-        >>> face_counts = array([1, 0, 0, 0, 0])
-        >>> face_probs = [1/6] * len(face_counts)
-        >>> my_die = Die(face_probs)
-        >>> [round(x, 2) for x in my_die.expectation(face_counts)]
-        [0.17, 1.0, 1.0, 1.0, 1.0]
-        """
-        if not isinstance(observed_data, (list, np.ndarray)):
-            raise TypeError('observed_data must be a list or numpy array')
-        if len(observed_data) == 0:
-            raise ValueError('observed_data must not be empty')
-        if isinstance(observed_data, list):
-            observed_data = np.array(observed_data)
-        if len(observed_data) < len(self.face_probs):
-            logger.warning('observed_data has fewer elements than '
-                           'face_probs. Appending zeros to observed_data.')
-            observed_data = np.append(observed_data,
-                                      np.zeros(len(self.face_probs) -
-                                               len(observed_data)))
-        result = np.power(self.face_probs, observed_data)
-        return result
-
     def likelihood(self, observed_data: NDArray[np.int_]) -> List[float]:
         """Calculate the likelihood of the observed data given the Die 
             face probabilities (face_probs).
@@ -272,7 +228,12 @@ class Die:
 
         Die Likelihood Example
         ----------------------
-        # TODO write example -- see openai
+        >>> import numpy as np
+        >>> face_probs = [1/4]*4
+        >>> my_die = Die(face_probs)
+        >>> observed_data = np.array([1]*4)
+        >>> round(my_die.likelihood(observed_data), 4)
+        0.0039
         """
         # check input data types
         if not isinstance(observed_data, (np.ndarray, list)):
