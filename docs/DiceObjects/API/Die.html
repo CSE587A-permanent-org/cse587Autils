@@ -1,0 +1,576 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="BagOfDice" href="BagOfDice.html" /><link rel="prev" title="Dice Objects API" href="index.html" />
+
+    <!-- Generated with Sphinx 7.1.1 and Furo 2023.07.26 -->
+        <title>Die - cse587Autils 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">cse587Autils 0.1.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  
+  <span class="sidebar-brand-text">cse587Autils 0.1.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">Dice Objects</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Dice Objects</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current has-children"><a class="reference internal" href="index.html">Dice Objects API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Dice Objects API</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">Die</a></li>
+<li class="toctree-l3"><a class="reference internal" href="BagOfDice.html">BagOfDice</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Usage/index.html">Dice Objects Usage</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Dice Objects Usage</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Usage/Die.html">Die Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Usage/BagOfDice.html">BagOfDice Usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="die">
+<h1>Die<a class="headerlink" href="#die" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="cse587Autils.DiceObjects.Die.Die">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cse587Autils.DiceObjects.Die.</span></span><span class="sig-name descname"><span class="pre">Die</span></span><a class="reference internal" href="../../_modules/cse587Autils/DiceObjects/Die.html#Die"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cse587Autils.DiceObjects.Die.Die" title="Permalink to this definition">#</a></dt>
+<dd><p>A class used to represent a dice with n faces, each with probability p.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>face_probs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – The probabilities of the faces</p>
+</dd>
+</dl>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this heading">#</a></h2>
+<p>To create a die with 6 faces where the probability of rolling 
+each face is equal, you would do:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">face_probs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">(</span><span class="n">face_probs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">my_die</span><span class="p">)</span>
+<span class="go">6</span>
+</pre></div>
+</div>
+<p># access the probability of a face. Remember that python is zero-indexed!
+&gt;&gt;&gt; my_die[0]
+0.16666666666666666</p>
+<p># accessing a probability that is negative or outside of the range of the die
+# will raise an IndexError
+&gt;&gt;&gt; my_die[7]  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+…
+IndexError</p>
+<p># rolling the die will return a random face
+# remember python is 0 indexed AND the upper bound is exclusive, meaning 
+# in order to get the numbers 0, 1, 2, 3, 4, 5, you need to pass in the
+# range 0, 6
+&gt;&gt;&gt; my_die.roll() in set(range(0, 6))
+True</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cse587Autils.DiceObjects.Die.Die.__getitem__">
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cse587Autils/DiceObjects/Die.html#Die.__getitem__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cse587Autils.DiceObjects.Die.Die.__getitem__" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the probability of the face at a given index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The index of the face</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.11)"><strong>TypeError</strong></a> – If the index is not an integer</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#IndexError" title="(in Python v3.11)"><strong>IndexError</strong></a> – If the index is out of range</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The probability of the face at the given index</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+<section id="die-item-getter-examples">
+<h3>Die Item Getter Examples<a class="headerlink" href="#die-item-getter-examples" title="Permalink to this heading">#</a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">face_probs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">(</span><span class="n">face_probs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">0.16666666666666666</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cse587Autils.DiceObjects.Die.Die.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">face_probs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cse587Autils/DiceObjects/Die.html#Die.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cse587Autils.DiceObjects.Die.Die.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>See class docstring for details</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>face_probs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>] </em><em>| </em><em>None</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cse587Autils.DiceObjects.Die.Die.__len__">
+<span class="sig-name descname"><span class="pre">__len__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cse587Autils/DiceObjects/Die.html#Die.__len__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cse587Autils.DiceObjects.Die.Die.__len__" title="Permalink to this definition">#</a></dt>
+<dd><p>The getter of the length of the <cite>face_probs</cite> attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The length of the face probabilities (face_probs)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+<section id="die-length-examples">
+<h3>Die Length Examples<a class="headerlink" href="#die-length-examples" title="Permalink to this heading">#</a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">face_probs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">(</span><span class="n">face_probs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">my_die</span><span class="p">)</span>
+<span class="go">6</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cse587Autils.DiceObjects.Die.Die.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cse587Autils/DiceObjects/Die.html#Die.__repr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cse587Autils.DiceObjects.Die.Die.__repr__" title="Permalink to this definition">#</a></dt>
+<dd><p>The representation of the <cite>Die</cite> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The representation of the <cite>Die</cite> object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+<section id="die-print-examples">
+<h3>Die Print Examples<a class="headerlink" href="#die-print-examples" title="Permalink to this heading">#</a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">face_probs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">(</span><span class="n">face_probs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span>
+<span class="go">Die([0.16666666666666666, 0.16666666666666666, 0.16666666666666666,</span>
+<span class="go">    0.16666666666666666, 0.16666666666666666, 0.16666666666666666])</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cse587Autils.DiceObjects.Die.Die.__sub__">
+<span class="sig-name descname"><span class="pre">__sub__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cse587Autils/DiceObjects/Die.html#Die.__sub__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cse587Autils.DiceObjects.Die.Die.__sub__" title="Permalink to this definition">#</a></dt>
+<dd><p>Subtract the face probabilities (face_probs) of one Die from another Die. Sum the result. 
+This provides a measure of distance between two Die.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die" title="cse587Autils.DiceObjects.Die.Die"><em>Die</em></a>) – The other Die</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The sum of the differences between the face probabilities (face_probs) of two Die</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.11)"><strong>TypeError</strong></a> – If the other Die is not a Die</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If the other Die has a different number of faces</p></li>
+</ul>
+</dd>
+</dl>
+<section id="die-difference-operator-examples">
+<h3>Die Difference Operator Examples<a class="headerlink" href="#die-difference-operator-examples" title="Permalink to this heading">#</a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">face_probs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">(</span><span class="n">face_probs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">other_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">(</span><span class="n">face_probs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span> <span class="o">-</span> <span class="n">other_die</span>
+<span class="go">0.0</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cse587Autils.DiceObjects.Die.Die.expectation">
+<span class="sig-name descname"><span class="pre">expectation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observed_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cse587Autils/DiceObjects/Die.html#Die.expectation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cse587Autils.DiceObjects.Die.Die.expectation" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Calculate the probability of the observed data given the Die </dt><dd><p>face probabilities (face_probs).</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>observed_data</strong> (NDArray[<a class="reference external" href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int_" title="(in NumPy v1.25)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.int_</span></code></a>]) – A list of observed face counts where the index
+of each element corresponds to the face, and the count is the
+number of times that face was observed. The sum of the counts is
+the number of times the die was rolled.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The probability of the observed data given the Die face 
+probability.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>NDArray[<code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.float_</span></code>]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.11)"><strong>TypeError</strong></a> – If the face counts is not a 
+numpy array or a base python list.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If the face counts is an empty list.</p></li>
+</ul>
+</dd>
+</dl>
+<section id="die-expectation-example">
+<h3>Die Expectation Example<a class="headerlink" href="#die-expectation-example" title="Permalink to this heading">#</a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">face_counts</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">face_probs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">face_counts</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">(</span><span class="n">face_probs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">my_die</span><span class="o">.</span><span class="n">expectation</span><span class="p">(</span><span class="n">face_counts</span><span class="p">)]</span>
+<span class="go">[0.17, 1.0, 1.0, 1.0, 1.0]</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cse587Autils.DiceObjects.Die.Die.face_probs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">face_probs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cse587Autils.DiceObjects.Die.Die.face_probs" title="Permalink to this definition">#</a></dt>
+<dd><p>The getter of the <cite>face_probs</cite> attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The face probabilities (face_probs)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cse587Autils.DiceObjects.Die.Die.likelihood">
+<span class="sig-name descname"><span class="pre">likelihood</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observed_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cse587Autils/DiceObjects/Die.html#Die.likelihood"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cse587Autils.DiceObjects.Die.Die.likelihood" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Calculate the likelihood of the observed data given the Die </dt><dd><p>face probabilities (face_probs).</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>observed_data</strong> (NDArray[<a class="reference external" href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int_" title="(in NumPy v1.25)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.int_</span></code></a>]) – A list of observed face counts where the index
+of each element corresponds to the face, and the count is
+the number of times that face was observed. The sum of the counts
+is the number of times the die was rolled.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The likelihood of the observed bin counts given the 
+face probabilities.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.11)"><strong>TypeError</strong></a> – If the face counts is not a 
+numpy array or a base python list.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If the face counts is an empty list.</p></li>
+</ul>
+</dd>
+</dl>
+<section id="die-likelihood-example">
+<h3>Die Likelihood Example<a class="headerlink" href="#die-likelihood-example" title="Permalink to this heading">#</a></h3>
+<p># TODO write example – see openai</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cse587Autils.DiceObjects.Die.Die.roll">
+<span class="sig-name descname"><span class="pre">roll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cse587Autils/DiceObjects/Die.html#Die.roll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cse587Autils.DiceObjects.Die.Die.roll" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the result of rolling the die.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>optional</em>) – The seed for the random number generator</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The result of rolling the die</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+<section id="die-roll-examples">
+<h3>Die Roll Examples<a class="headerlink" href="#die-roll-examples" title="Permalink to this heading">#</a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">face_probs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">(</span><span class="n">face_probs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="BagOfDice.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">BagOfDice</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="index.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Dice Objects API</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023, Chase Mateusiak
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Die</a><ul>
+<li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die"><code class="docutils literal notranslate"><span class="pre">Die</span></code></a><ul>
+<li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.__getitem__"><code class="docutils literal notranslate"><span class="pre">Die.__getitem__()</span></code></a></li>
+<li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.__init__"><code class="docutils literal notranslate"><span class="pre">Die.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.__len__"><code class="docutils literal notranslate"><span class="pre">Die.__len__()</span></code></a></li>
+<li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.__repr__"><code class="docutils literal notranslate"><span class="pre">Die.__repr__()</span></code></a></li>
+<li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.__sub__"><code class="docutils literal notranslate"><span class="pre">Die.__sub__()</span></code></a></li>
+<li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.expectation"><code class="docutils literal notranslate"><span class="pre">Die.expectation()</span></code></a></li>
+<li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.face_probs"><code class="docutils literal notranslate"><span class="pre">Die.face_probs</span></code></a></li>
+<li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.likelihood"><code class="docutils literal notranslate"><span class="pre">Die.likelihood()</span></code></a></li>
+<li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.roll"><code class="docutils literal notranslate"><span class="pre">Die.roll()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=2389946f"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    </body>
+</html>
