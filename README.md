@@ -6,7 +6,7 @@ This package stores objects, functions and at some point possibly data for
 Michael Brent's CSE 587A: Algorithms for Computational Biology at Washington
 University.  
 
-[See the documentation here](https://chase-mateusiak.github.io/cse587Autils/)
+[See the documentation here](https://cse587a.github.io/cse587Autils/)
 
 # Installation
 
