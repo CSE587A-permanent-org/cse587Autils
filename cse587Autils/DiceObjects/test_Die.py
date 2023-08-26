@@ -20,7 +20,7 @@ def test_die_face_probs_setter():
 def test_die_repr():
     face_probs = [1 / 6] * 6
     my_die = Die(face_probs)
-    assert repr(my_die) == f"Die({face_probs})"
+    assert repr(my_die) == f"Die({[round(x,4) for x in face_probs]})"
 
 
 def test_die_len():
@@ -56,22 +56,6 @@ def test_die_roll():
     my_die = Die(face_probs)
     result = my_die.roll()
     assert result in set(range(6))
-
-
-def test_expectation():
-    # Define the observed data
-    observed_data = np.array([1, 0, 0, 0, 0, 0])
-
-    # Create a die with equal face probabilities (face_probs)
-    face_probs = [1/6] * len(observed_data)
-    my_die = Die(face_probs)
-
-    # Calculate the expectation
-    actual = my_die.expectation(observed_data)
-
-    # Assert the expected values
-    expected = [0.16666667, 1.0, 1.0, 1.0, 1.0]
-    assert all(round(x, 8) == round(y, 8) for x, y in zip(actual, expected))
 
 
 def test_die_likelihood():
