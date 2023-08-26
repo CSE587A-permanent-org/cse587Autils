@@ -6,18 +6,18 @@ from cse587Autils.DiceObjects.BagOfDice import BagOfDice
 
 
 def test_bag_of_dice_constructor():
-    die_weights = [0.5, 0.5]
+    die_priors = [0.5, 0.5]
     dice = [Die([1 / 6] * 6), Die([0.9, 0.1])]
-    my_bag = BagOfDice(die_weights, dice)
-    assert my_bag.die_weights == die_weights
+    my_bag = BagOfDice(die_priors, dice)
+    assert my_bag.die_priors == die_priors
     assert my_bag.dice == dice
 
 
-def test_bag_of_dice_die_weights_setter():
-    die_weights = [0.5, 0.5]
+def test_bag_of_dice_die_priors_setter():
+    die_priors = [0.5, 0.5]
     my_bag = BagOfDice()
-    my_bag.die_weights = die_weights
-    assert my_bag.die_weights == die_weights
+    my_bag.die_priors = die_priors
+    assert my_bag.die_priors == die_priors
 
 
 def test_bag_of_dice_dice_setter():
@@ -28,35 +28,44 @@ def test_bag_of_dice_dice_setter():
 
 
 def test_bag_of_dice_repr():
-    die_weights = [0.5, 0.5]
+    die_priors = [0.5, 0.5]
     dice = [Die([1 / 6] * 6), Die([0.9, 0.1])]
-    my_bag = BagOfDice(die_weights, dice)
-    assert repr(my_bag) == f"BagOfDice(die_weights={die_weights}, dice={dice})"
+    my_bag = BagOfDice(die_priors, dice)
+    assert repr(my_bag) == f"BagOfDice(die_priors={die_priors}, dice={dice})"
 
 
 def test_bag_of_dice_len():
-    die_weights = [0.5, 0.5]
+    die_priors = [0.5, 0.5]
     dice = [Die([1 / 6] * 6), Die([0.9, 0.1])]
-    my_bag = BagOfDice(die_weights, dice)
+    my_bag = BagOfDice(die_priors, dice)
     assert len(my_bag) == 2
 
 
 def test_bag_of_dice_getitem():
-    die_weights = [0.5, 0.5]
+    die_priors = [0.5, 0.5]
     dice = [Die([1 / 6] * 6), Die([0.9, 0.1])]
-    my_bag = BagOfDice(die_weights, dice)
+    my_bag = BagOfDice(die_priors, dice)
     assert my_bag[0] == (0.5, dice[0])
     assert my_bag[0][0] == 0.5
     assert my_bag[0][1] == dice[0]
 
 
-def test_bag_of_dice_subtraction():
+def test_bag_of_dice_subtraction_diff():
     fair_die = Die([1 / 6] * 6)
     biased_die = Die([0.9, 0.1])
     my_bag = BagOfDice([0.5, 0.5], [fair_die, biased_die])
     other_bag = BagOfDice([0.4, 0.6], [fair_die, biased_die])
     actual = my_bag - other_bag
     expected = abs(0.5 - 0.4) + abs(0.5 - 0.6)
+    assert actual == expected
+
+
+def test_bag_of_dice_subtraction_same():
+    """Bags are the same. Diff should be 0"""
+    fair_die = Die([1 / 6] * 6)
+    my_bag = BagOfDice([0.5, 0.5], [fair_die, fair_die])
+    actual = my_bag - my_bag
+    expected = 0
     assert actual == expected
 
 
