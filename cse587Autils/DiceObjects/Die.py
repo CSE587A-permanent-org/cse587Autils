@@ -25,6 +25,11 @@ def safe_exponentiate(base: [int, float],
         raise ValueError('The base must be an int or float')
     if not isinstance(exponent, (int, float, np.int_, np.float_)):
         raise ValueError('The exponent must be an int or float')
+    if base == 0 and exponent != 0:
+        raise ValueError('If the count is 0, the probability should not 0. A face '
+                         'with no probability of being rolled should not '
+                         'be observed. If this occurs as an initial guess, '
+                         'you should revise your initial guess.')
 
     return 1 if exponent == 0 else base ** exponent
 
