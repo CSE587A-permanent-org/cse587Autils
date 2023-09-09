@@ -5,7 +5,8 @@ from numpy import isclose, ndarray
 logger = logging.getLogger(__name__)
 
 
-def check_probability(probability_vector: List[float]) -> List[float]:
+def check_probability(probability_vector: List[float], 
+                      tolerance: float = 1e-10) -> List[float]:
     """
     Check that a list of probabilities is valid
 
@@ -45,12 +46,12 @@ def check_probability(probability_vector: List[float]) -> List[float]:
         raise TypeError("The value must be a list.")
     # Check that each element of the list is a float
     for i in probability_vector:
-        if not isinstance(i, float):
+        if not isinstance(i, (float, int)):
             raise TypeError("The value must be a list of floats.")
         if i < 0 or i > 1:
             raise ValueError("The value must be between 0.0 and 1.0")
     # Check that the sum of the values is 1
-    if not isclose(sum(probability_vector), 1, atol=1e-10):
+    if not isclose(sum(probability_vector), 1, atol=tolerance):
         raise ValueError("The sum of the values must be 1.0")
     # Return the value
     logger.debug('probability vector %s is valid', probability_vector)
