@@ -1,3 +1,10 @@
+# 2.0.0
+
+Key Points
+
+- Adding SequenceObjects. This adds the SiteModel object for the Site labs
+- Adds `int` to the accepted datatype for check_probabilities
+
 # 1.2.0
 
 Key Points
