@@ -39,7 +39,7 @@ class SiteModel:
         """
         self._precision = precision
         self._tolerance = tolerance
-        if site_prior:
+        if site_prior is not None:
             self.site_prior = site_prior
         if site_probs:
             self.site_probs = site_probs

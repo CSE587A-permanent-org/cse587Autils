@@ -13,6 +13,12 @@ def test_valid_construction():
     assert sm.background_prior == 0.8
     assert len(sm) == 2
 
+    sm1 = SiteModel(1, site_probs, background_probs)
+    assert sm1.background_prior == 0
+
+    sm2 = SiteModel(0, site_probs, background_probs)
+    assert sm2.background_prior == 1
+
 
 def test_logging(caplog):
     caplog.set_level(logging.WARNING)
