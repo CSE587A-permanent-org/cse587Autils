@@ -5,23 +5,21 @@ from numpy import isclose, ndarray
 logger = logging.getLogger(__name__)
 
 
-def check_probability(probability_vector: List[float], 
+def check_probability(probability_vector: List[float],
                       tolerance: float = 1e-10) -> List[float]:
     """
-    Check that a list of probabilities is valid
+    Check that a list of probabilities is valid.
 
-    :param probability_vector: The probabilities to check
+    :param probability_vector: The probabilities to check.
     :type probability_vector: list of float
-    :raise TypeError: If the probability_vector is not a list or the
-      elements are not floats
-    :raise ValueError: If the probability_vector elements are not between
-      0 and 1 or the sum of probability_vector is not 1
-    :return: The validated probability_vector
+    :return: The validated probability_vector.
     :rtype: list of float
+    :raises TypeError: If the probability_vector is not a list or the
+      elements are not floats.
+    :raises ValueError: If the probability_vector elements are not
+      between 0 and 1 or the sum of probability_vector is not 1.
 
-    Examples
-    --------
-    To check a valid list of probabilities:
+    :Examples:
 
     >>> check_probability([0.5, 0.5])
     [0.5, 0.5]

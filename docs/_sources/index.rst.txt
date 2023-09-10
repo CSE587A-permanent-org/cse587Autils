@@ -11,6 +11,8 @@ Welcome to cse587Autils's documentation!
    :caption: Contents:
 
    DiceObjects/index
+   SequenceObjects/index
+   utils/index
 
 Indices and tables
 ==================

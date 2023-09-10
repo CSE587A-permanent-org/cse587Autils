@@ -41,31 +41,28 @@ class Die:
     :param face_probs: The probabilities of the faces
     :type face_probs: list of float
 
-    Example
-    -------
-    To create a die with 6 faces where the probability of rolling 
-    each face is equal, you would do:
+    :Examples:
 
     >>> face_probs = [1/6]*6
     >>> my_die = Die(face_probs)
     >>> len(my_die)
     6
 
-    # access the probability of a face. Remember that python is zero-indexed!
+    >>> # access the probability of a face. Remember that python is zero-indexed!
     >>> my_die[0]
     0.16666666666666666
 
-    # accessing a probability that is negative or outside of the range of the die
-    # will raise an IndexError
+    >>> # accessing a probability that is negative or outside of the range of the
+    >>> # die will raise an IndexError
     >>> my_die[7]  # doctest: +IGNORE_EXCEPTION_DETAIL
     Traceback (most recent call last):
     ...
     IndexError
 
-    # rolling the die will return a random face
-    # remember python is 0 indexed AND the upper bound is exclusive, meaning 
-    # in order to get the numbers 0, 1, 2, 3, 4, 5, you need to pass in the
-    # range 0, 6
+    >>> # rolling the die will return a random face
+    >>> # remember python is 0 indexed AND the upper bound is exclusive, meaning
+    >>> # in order to get the numbers 0, 1, 2, 3, 4, 5, you need to pass in the
+    >>> # range 0, 6
     >>> my_die.roll() in set(range(0, 6))
     True
     """
@@ -107,8 +104,8 @@ class Die:
         :return: The representation of the `Die` object
         :rtype: str
 
-        Die Print Examples
-        ------------------
+        :Exmaples:
+
         >>> face_probs = [1/6]*6
         >>> my_die = Die(face_probs)
         >>> my_die
@@ -123,8 +120,8 @@ class Die:
         :return: The length of the face probabilities (face_probs)
         :rtype: int
 
-        Die Length Examples
-        -------------------
+        :Examples:
+
         >>> face_probs = [1/6]*6
         >>> my_die = Die(face_probs)
         >>> len(my_die)
@@ -143,8 +140,8 @@ class Die:
         :return: The probability of the face at the given index
         :rtype: float
 
-        Die Item Getter Examples
-        ------------------------
+        :Examples:
+
         >>> face_probs = [1/6]*6
         >>> my_die = Die(face_probs)
         >>> my_die[0]
@@ -159,19 +156,21 @@ class Die:
 
     def __sub__(self, other: 'Die') -> float:
         """
-        Subtract the face probabilities (face_probs) of one Die from another Die. Sum the result. 
-        This provides a measure of distance between two Die.
+        Subtract the face probabilities (face_probs) of one Die from another
+            Die. Sum the result. This provides a measure of distance between
+            two Die.
 
         :param other: The other Die
         :type other: Die
-        :return: The sum of the differences between the face probabilities (face_probs) of two Die
+        :return: The sum of the differences between the face probabilities
+            (face_probs) of two Die
         :rtype: float
 
         :raise TypeError: If the other Die is not a Die
         :raise ValueError: If the other Die has a different number of faces
 
-        Die Difference Operator Examples
-        --------------------------------
+        :Examples:
+
         >>> face_probs = [1/6]*6
         >>> my_die = Die(face_probs)
         >>> other_die = Die(face_probs)
@@ -195,8 +194,8 @@ class Die:
         :return: The result of rolling the die
         :rtype: int
 
-        Die Roll Examples
-        -----------------
+        :Examples:
+
         >>> import numpy as np
         >>> np.random.seed(42)
         >>> face_probs = [1/6]*6
@@ -226,8 +225,8 @@ class Die:
             numpy array or a base python list.
         :raises ValueError: If the face counts is an empty list.
 
-        Die Likelihood Example
-        ----------------------
+        :Examples:
+
         >>> import numpy as np
         >>> face_probs = [1/4]*4
         >>> my_die = Die(face_probs)

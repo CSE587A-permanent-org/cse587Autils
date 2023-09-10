@@ -3,6 +3,9 @@ import sys
 import logging
 from typing import List
 from cse587Autils.utils.check_probability import check_probability
+from cse587Autils.utils.flatten_2d_list import flatten_2d_list
+from cse587Autils.utils.euclidean_distance_lists \
+    import euclidean_distance_lists
 
 logger = logging.getLogger(__name__)
 
@@ -10,37 +13,10 @@ logger = logging.getLogger(__name__)
 class SiteModel:
     """
     A class for storing and managing parameters for a simple probabilistic
-        model of transcription factor binding sites in a genome
-
-    :param site_prior: Prior probability of a bound site, defaults to None.
-        If site_prior is set, background_prior will be set to 1 - site_prior.
-        This automatic update of the opposite prior occurs when either
-        site_prior or background_prior are updated in an instance of
-        SiteModel, also.
-    :type site_prior: float, optional
-    :param site_probs: List of lists containing probabilities for each base in
-        bound sites.
-    :type site_probs: list[list[float]], optional
-    :param background_probs: List containing the background probabilities for
-        each base.
-    :type background_probs: list[float], optional
-    :param precision: The number of digits which can be represented by the
-        floating-point type, defaults to sys.float_info.dig and it is used
-        to round the prior probabilities.
-    :type precision: int, optional
-    :param tolerance: Tolerance for checking probabilities, defaults to 1e-10.
-    :type tolerance: float, optional
-
-    :ivar _precision: The number of digits which can be represented by the
-        floating-point type. Used to round the prior probabilities
-    :ivar _tolerance: Internal tolerance for checking probabilities.
-    :ivar _site_prior: Internal prior probability of a bound site.
-    :ivar _background_prior: Internal prior probability of a non-bound site.
-    :ivar _site_probs: Internal probabilities for each base at each position
-        in a bound site.
-    :ivar _background_probs: Internal background probabilities for each base.
+    model of transcription factor binding sites in a genome.
 
     :Example:
+
     >>> site_prior = 0.2
     >>> site_probs = [[0.25, 0.25, 0.25, 0.25], [0.1, 0.2, 0.3, 0.4]]
     >>> background_probs = [1/4]*4
@@ -55,6 +31,12 @@ class SiteModel:
                  background_probs: List[float] = None,
                  precision: int = sys.float_info.dig,
                  tolerance: float = 1e-10) -> None:
+        """
+        See the property documentation for details on each parameter.
+
+        Note that if site_prior is set, background_prior is automatically set
+            to 1 - site_prior.
+        """
         self._precision = precision
         self._tolerance = tolerance
         if site_prior:
@@ -99,7 +81,8 @@ class SiteModel:
     @property
     def tolerance(self) -> float:
         """
-        Get or set the tolerance for checking probabilities.
+        Get or set the tolerance for checking probabilities. Defaults to 1e-10
+            if not explicitly provided in constructor.
 
         :return: Tolerance for checking probabilities.
         :rtype: float
@@ -128,7 +111,11 @@ class SiteModel:
     @property
     def site_prior(self) -> float:
         """
-        Get or set the prior probability of a bound site.
+        Prior probability of a bound site, defaults to None if not provided in
+            constructor. If site_prior is set, background_prior will be set to
+            1 - site_prior. This automatic update of the opposite prior occurs
+            when either site_prior or background_prior are updated in an
+            instance of SiteModel, also.
 
         :return: Prior probability of a bound site.
         :rtype: float
@@ -153,7 +140,7 @@ class SiteModel:
         logger.warning('Setting site_prior will also set background_prior to '
                        '1 - site_prior')
         rounded_site_prior = round(prior, self.precision)
-        rounded_background_prior = round(1.0 - prior,self.precision)
+        rounded_background_prior = round(1.0 - prior, self.precision)
         check_probability([rounded_site_prior, rounded_background_prior],
                           tolerance=self.tolerance)
         self._site_prior = rounded_site_prior
@@ -162,7 +149,10 @@ class SiteModel:
     @property
     def background_prior(self) -> float:
         """
-        Get or set the prior probability of a non-bound site.
+        Get or set the prior probability of a non-bound site. Defaults to None
+            if site_prior is not passed in the object constructor. However, if
+            site_prior is passed in the constructor, or if background_prior is
+            updated, site_prior will be set to 1 - background_prior.
 
         :return: Prior probability of a non-bound site.
         :rtype: float
@@ -196,9 +186,16 @@ class SiteModel:
     @property
     def site_probs(self) -> List[List[float]]:
         """
-        Get or set the probabilities of each base in bound sites.
+        List of lists containing probabilities for each base in bound sites.
+            Each sublist will be length 4 and represents the probability of
+            observing each base (A, C, G, T) at the given position in a bound
+            site. Defaults to None if not provided in constructor. The length
+            of site_probs is the length of the site sequence and is provided
+            by len(SiteModel). If not explicitly passed in the constructor,
+            site_probs defaults to `None`.
 
-        :return: A list of lists containing probabilities for each base in bound sites.
+        :return: A list of lists containing probabilities for each base in
+            bound sites.
         :rtype: list[list[float]]
 
         :Raises:
@@ -234,7 +231,12 @@ class SiteModel:
     @property
     def background_probs(self) -> List[float]:
         """
-        Get or set the background probabilities of each base.
+        List containing the background probabilities for each base. This is a
+            list of length four, where each element represents the probability
+            of observing each base (A, C, G, T) in the background. It is a
+            simplifying assumption that the probability of observing each base
+            is independent of the position in the genome. Defaults to None if
+            `background_probs` is not provided in the constructor.
 
         :return: A list containing the background probabilities for each base.
         :rtype: list[float]
@@ -246,7 +248,11 @@ class SiteModel:
         >>> sm.background_probs
         [0.25, 0.25, 0.25, 0.25]
         """
-        return self._background_probs
+        try:
+            return self._background_probs
+        except AttributeError:
+            logger.warning('background_probs not set')
+            return None
 
     @background_probs.setter
     def background_probs(self, background_probs: List[float]):
@@ -257,6 +263,56 @@ class SiteModel:
         check_probability(background_probs, tolerance=self.tolerance)
         self._background_probs = background_probs
 
+    def __repr__(self) -> str:
+        """
+        Generate an unambiguous string representation of the SiteModel
+            instance.
+
+        This string representation is intended for debugging and should be
+            able to recreate the object if passed to the eval() function.
+
+        :return: A string representation of the SiteModel instance.
+        :rtype: str
+
+        :Example:
+
+        >>> site_prior = 0.2
+        >>> site_probs = [[0.25, 0.25, 0.25, 0.25], [0.1, 0.2, 0.3, 0.4]]
+        >>> background_probs = [1/4]*4
+        >>> sm = SiteModel(site_prior, site_probs, background_probs)
+        >>> repr(sm)
+        'SiteModel(site_prior=0.2, site_probs=[[0.25, 0.25, 0.25, 0.25], [0.1, 0.2, 0.3, 0.4]], background_probs=[0.25, 0.25, 0.25, 0.25])'
+        """
+        return (f'SiteModel(site_prior={self.site_prior}, '
+                f'site_probs={self.site_probs}, '
+                f'background_probs={self.background_probs})')
+
+    def __str__(self) -> str:
+        """
+        Generate a human-readable string representation of the SiteModel
+            instance.
+
+        This string representation is intended for end-users and provides an
+        easily interpretable description of the SiteModel instance.
+
+        :return: A human-readable string representation of the SiteModel
+            instance.
+        :rtype: str
+
+        :Example:
+
+        >>> site_prior = 0.2
+        >>> site_probs = [[0.25, 0.25, 0.25, 0.25], [0.1, 0.2, 0.3, 0.4]]
+        >>> background_probs = [1/4]*4
+        >>> sm = SiteModel(site_prior, site_probs, background_probs)
+        >>> str(sm)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+        'SiteModel with site_prior: 0.2, background_prior: 0.8, site_probs: [[0.25, 0.25, 0.25, 0.25], [0.1, 0.2, 0.3, 0.4]], background_probs: [0.25, 0.25, 0.25, 0.25]'
+        """
+        return (f'SiteModel with site_prior: {self.site_prior}, '
+                f'background_prior: {self.background_prior}, '
+                f'site_probs: {self.site_probs}, '
+                f'background_probs: {self.background_probs}')
+
     def __len__(self) -> int:
         """Return the number of positions in the site sequence.
 
@@ -264,6 +320,7 @@ class SiteModel:
         :rtype: int
 
         :Example:
+
         >>> sm = SiteModel()
         >>> sm.site_probs = [[0.25, 0.25, 0.25, 0.25], [0.1, 0.2, 0.3, 0.4]]
         >>> len(sm)
@@ -274,3 +331,72 @@ class SiteModel:
         except AttributeError:
             logger.warning('site_probs not set')
             return None
+
+    def __sub__(self, other: 'SiteModel') -> float:
+        """
+        Calculate the absolute difference between two SiteModels.
+
+        The difference is calculated by taking the sum of the euclidean
+        distance between [site_prior, background_prior], the euclidean
+        distance between each site probability, and the euclidean distance
+        between each background probability.
+
+        :param other: The other SiteModel to compare to.
+        :type other: SiteModel
+
+        :raises TypeError: If the other object is not a SiteModel.
+        :raises ValueError: If the two SiteModels do not have the same length
+            site_probs or if any of the attributes are not set.
+
+        :return: The absolute difference between the two SiteModels.
+        :rtype: float
+
+        :Example:
+
+        >>> sm1 = SiteModel(0.2, 
+        ...                 [[0.1, 0.2, 0.3, 0.4], [0.3, 0.4, 0.3, 0.0]], 
+        ...                 [0.25, 0.25, 0.25, 0.25])
+        >>> sm2 = SiteModel(0.1, 
+        ...                 [[0.1, 0.1, 0.1, 0.7], [0.2, 0.2, 0.2, 0.4]], 
+        ...                 [0.25, 0.25, 0.25, 0.25])
+        >>> sm1 - sm2
+        0.7414213562373095
+        """
+        if not isinstance(other, SiteModel):
+            raise TypeError(f"Unsupported type {type(other)} for subtraction")
+
+        if not len(self) == len(other):
+            raise ValueError("Both SiteModels must have the same "
+                             "length site_probs")
+
+        if (self.site_prior is None
+            or other.site_prior is None
+            or self.background_prior is None
+            or other.background_prior is None
+            or self.site_probs is None
+            or other.site_probs is None
+            or self.background_probs is None
+                or other.background_probs is None):
+            raise ValueError("Both SiteModels must have all parameters set")
+
+        if len(self.site_probs) != len(other.site_probs):
+            raise ValueError(
+                "Both SiteModels must have the same length site_probs")
+
+        prior_diff = euclidean_distance_lists(
+            [self.site_prior, self.background_prior],
+            [other.site_prior, other.background_prior]
+        )
+        # get the abolute difference between each site probability
+        site_probs_diff = euclidean_distance_lists(
+            flatten_2d_list(self.site_probs),
+            flatten_2d_list(other.site_probs)
+        )
+        # get the absolute difference between each background probability
+        background_probs_diff = euclidean_distance_lists(
+            self.background_probs,
+            other.background_probs
+        )
+        return (prior_diff
+                + site_probs_diff
+                + background_probs_diff)

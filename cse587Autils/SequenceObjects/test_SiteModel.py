@@ -45,3 +45,14 @@ def test_invalid_background_probs_length():
     sm = SiteModel()
     with pytest.raises(ValueError):
         sm.background_probs = [0.25, 0.25, 0.25]
+
+
+def test_site_model_subtraction():
+    sm1 = SiteModel(0.2,
+                    [[0.1, 0.2, 0.5, 0.2], [0.3, 0.4, 0.2, 0.1]],
+                    [0.25]*4)
+    sm2 = SiteModel(0.1,
+                    [[0.1, 0.1, 0.8, 0.0], [0.2, 0.2, 0.1, 0.5]],
+                    [0.25]*4)
+    result = sm1 - sm2
+    assert result == 0.7414213562373095

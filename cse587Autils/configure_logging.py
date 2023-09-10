@@ -57,15 +57,25 @@ def configure_logging(level=logging.INFO,
             'class': 'logging.FileHandler',
             'filename': filename,
             'mode': 'a',
+            'formatter': 'detailed',  # specify the formatter
         }
     else:
         handlers['console'] = {
             'class': 'logging.StreamHandler',
+            'formatter': 'detailed',  # specify the formatter
         }
 
     LOGGING_CONFIG = {
         'version': 1,
         'disable_existing_loggers': False,
+        'formatters': {  # define your formatters here
+            'detailed': {
+                'format': '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            },
+            'simple': {
+                'format': '%(levelname)s - %(message)s'
+            }
+        },
         'handlers': handlers,
         'root': {
             'handlers': list(handlers.keys()),
@@ -74,3 +84,4 @@ def configure_logging(level=logging.INFO,
     }
 
     logging.config.dictConfig(LOGGING_CONFIG)
+
