@@ -1,3 +1,11 @@
+# 2.0.1
+
+Key Points
+
+- fixing bug in SiteModel constructor which meant that site_prior in
+  constructor argument evaluated to False an did not set the prior values
+  correctly
+
 # 2.0.0
 
 Key Points
