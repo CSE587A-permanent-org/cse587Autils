@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 project = 'cse587Autils'
 copyright = '2023, Chase Mateusiak'
 author = 'Michael Brent, Chase Mateusiak'
-release = '0.1.0'
+release = '2.0.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

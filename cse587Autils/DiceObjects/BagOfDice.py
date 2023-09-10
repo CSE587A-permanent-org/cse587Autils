@@ -20,8 +20,8 @@ class BagOfDice:
     :param dice: The dice objects in the bag
     :type dice: list of Die objects
 
-    Examples
-    --------
+    :Examples:
+
     To create a bag containing a fair 6-sided die and a biased
     2-sided die, you would do:
 
@@ -32,7 +32,7 @@ class BagOfDice:
     2
     >>> my_bag[0][0] # The die prior of the first die.
     0.5
-    # The face probabilities of the first die, rounded to 2 decimal places.
+    >>> # The face probabilities of the first die, rounded to 2 decimal places.
     >>> [round(prob, 2) for prob in my_bag[0][1]]
     [0.17, 0.17, 0.17, 0.17, 0.17, 0.17]
     >>> trial_results = my_bag.draw(3) # Draw a die, roll it 3 times
@@ -114,8 +114,8 @@ class BagOfDice:
         :return: The string representation of the object
         :rtype: str
 
-        Examples
-        --------
+        :Examples:
+
         >>> fair_die = Die([1/6]*6)
         >>> biased_die = Die([0.9, 0.1])
         >>> my_bag = BagOfDice([0.5, 0.5], [fair_die, biased_die])
@@ -151,8 +151,8 @@ class BagOfDice:
         :return: The die_prior and face_probs of the die at the given index
         :rtype: tuple of float and list of float
 
-        BagOfDice Item Getter Examples
-        ------------------------------
+        :Examples:
+
         >>> fair_die = Die([1/6]*6)
         >>> biased_die = Die([0.9, 0.1])
         >>> my_bag = BagOfDice([0.4, 0.6], [fair_die, biased_die])
@@ -163,7 +163,7 @@ class BagOfDice:
         >>> my_bag[0][1]
         [0.6, [0.9, 0.1]]]
 
-        # The face probabilities (face_probs) of the first die, rounded to 2 decimal places.
+        >>> # The face probabilities (face_probs) of the first die, rounded to 2 decimal places.
         >>> [round(prob, 2) for prob in my_bag[0][0]]
         [0.9, 0.1]
         >>> my_bag[0][0] # The die prior of the first die.
@@ -184,8 +184,8 @@ class BagOfDice:
         :return: The difference in die priors
         :rtype: BagOfDice
 
-        BagOfDice Difference Operator Examples
-        --------------------------------------
+        :Examples:
+
         >>> fair_die = Die([1/6]*6)
         >>> biased_die = Die([0.9, 0.1])
         >>> my_bag = BagOfDice([0.5, 0.5], [fair_die, biased_die])
@@ -236,8 +236,8 @@ class BagOfDice:
         :rtype: Die
         :raises StopIteration: If there are no more dice to return
 
-        BagOfDice Next/Iterator Examples
-        --------------------------------
+        :Examples:
+
         >>> fair_die = Die([1/6]*6)
         >>> biased_die = Die([0.9, 0.1])
         >>> my_bag = BagOfDice([0.5, 0.5], [fair_die, biased_die])
@@ -283,8 +283,7 @@ class BagOfDice:
 
         .. _draw-examples:
 
-        Draw Examples
-        -------------
+        :Examples:
 
         >>> import numpy as np
         >>> np.random.seed(42)
@@ -333,10 +332,7 @@ class BagOfDice:
             dice.
         :rtype: float
 
-        .. _likelihood-examples:
-
-        Likelihood Examples
-        -------------------
+        :Examples:
 
         >>> from cse587Autils.DiceObjects.Die import Die
         >>> from cse587Autils.DiceObjects.BagOfDice import BagOfDice

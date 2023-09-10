@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Dice Objects Usage" href="../Usage/index.html" /><link rel="prev" title="Die" href="Die.html" />
 
     <!-- Generated with Sphinx 7.1.1 and Furo 2023.07.26 -->
-        <title>BagOfDice - cse587Autils 0.1.0 documentation</title>
+        <title>BagOfDice - cse587Autils 2.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
@@ -124,7 +124,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">cse587Autils 0.1.0 documentation</div></a>
+      <a href="../../index.html"><div class="brand">cse587Autils 2.0.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -147,7 +147,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">cse587Autils 0.1.0 documentation</span>
+  <span class="sidebar-brand-text">cse587Autils 2.0.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -168,6 +168,23 @@
 <li class="toctree-l3"><a class="reference internal" href="../Usage/BagOfDice.html">BagOfDice Usage</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../SequenceObjects/index.html">Sequence Objects</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Sequence Objects</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../SequenceObjects/API/index.html">Site Model API</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of Site Model API</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../SequenceObjects/API/SiteModel.html">SiteModel</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../SequenceObjects/Usage/index.html">Sequence Objects Usage</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Sequence Objects Usage</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../SequenceObjects/Usage/SiteModel.html">SiteModel Usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../utils/index.html">utils</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of utils</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../utils/check_probability.html">check_probability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../utils/flatten_2d_list.html">flatten_2d_list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../utils/euclidean_distance_lists.html">euclidean_distance_lists</a></li>
 </ul>
 </li>
 </ul>
@@ -219,9 +236,9 @@ determined by the probability of the die type.</p>
 <li><p><strong>dice</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em> of </em><em>Die objects</em>) – The dice objects in the bag</p></li>
 </ul>
 </dd>
+<dt class="field-even">Examples<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
 </dl>
-<section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">#</a></h2>
 <p>To create a bag containing a fair 6-sided die and a biased
 2-sided die, you would do:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fair_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">([</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span>
@@ -231,7 +248,7 @@ determined by the probability of the die type.</p>
 <span class="go">2</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">my_bag</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># The die prior of the first die.</span>
 <span class="go">0.5</span>
-<span class="go"># The face probabilities of the first die, rounded to 2 decimal places.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># The face probabilities of the first die, rounded to 2 decimal places.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">prob</span> <span class="ow">in</span> <span class="n">my_bag</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
 <span class="go">[0.17, 0.17, 0.17, 0.17, 0.17, 0.17]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">trial_results</span> <span class="o">=</span> <span class="n">my_bag</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># Draw a die, roll it 3 times</span>
@@ -256,9 +273,9 @@ determined by the probability of the die type.</p>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)">tuple</a> of float and list of <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
 </dd>
+<dt class="field-odd">Examples<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
 </dl>
-<section id="bagofdice-item-getter-examples">
-<h3>BagOfDice Item Getter Examples<a class="headerlink" href="#bagofdice-item-getter-examples" title="Permalink to this heading">#</a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fair_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">([</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">biased_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">([</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">my_bag</span> <span class="o">=</span> <span class="n">BagOfDice</span><span class="p">([</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">],</span> <span class="p">[</span><span class="n">fair_die</span><span class="p">,</span> <span class="n">biased_die</span><span class="p">])</span>
@@ -272,12 +289,13 @@ determined by the probability of the die type.</p>
 <span class="go">[0.6, [0.9, 0.1]]]</span>
 </pre></div>
 </div>
-<p># The face probabilities (face_probs) of the first die, rounded to 2 decimal places.
-&gt;&gt;&gt; [round(prob, 2) for prob in my_bag[0][0]]
-[0.9, 0.1]
-&gt;&gt;&gt; my_bag[0][0] # The die prior of the first die.
-[0.17,0.17,0.17,0.17,0.17,0.17]</p>
-</section>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># The face probabilities (face_probs) of the first die, rounded to 2 decimal places.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">prob</span> <span class="ow">in</span> <span class="n">my_bag</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span>
+<span class="go">[0.9, 0.1]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_bag</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># The die prior of the first die.</span>
+<span class="go">[0.17,0.17,0.17,0.17,0.17,0.17]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -310,7 +328,7 @@ determined by the probability of the die type.</p>
 </dd>
 </dl>
 <section id="bagofdice-length-examples">
-<h3>BagOfDice Length Examples<a class="headerlink" href="#bagofdice-length-examples" title="Permalink to this heading">#</a></h3>
+<h2>BagOfDice Length Examples<a class="headerlink" href="#bagofdice-length-examples" title="Permalink to this heading">#</a></h2>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fair_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">([</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">biased_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">([</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">my_bag</span> <span class="o">=</span> <span class="n">BagOfDice</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="n">fair_die</span><span class="p">,</span> <span class="n">biased_die</span><span class="p">])</span>
@@ -338,9 +356,9 @@ StopIteration when there are no more items to return.</p>
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#StopIteration" title="(in Python v3.11)"><strong>StopIteration</strong></a> – If there are no more dice to return</p>
 </dd>
+<dt class="field-even">Examples<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
 </dl>
-<section id="bagofdice-next-iterator-examples">
-<h3>BagOfDice Next/Iterator Examples<a class="headerlink" href="#bagofdice-next-iterator-examples" title="Permalink to this heading">#</a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fair_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">([</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">biased_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">([</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">my_bag</span> <span class="o">=</span> <span class="n">BagOfDice</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="n">fair_die</span><span class="p">,</span> <span class="n">biased_die</span><span class="p">])</span>
@@ -350,7 +368,6 @@ StopIteration when there are no more items to return.</p>
 <span class="go">[0.5, [0.9, 0.1]]</span>
 </pre></div>
 </div>
-</section>
 </dd></dl>
 
 <dl class="py method">
@@ -369,9 +386,9 @@ absolute differences between the die priors of the two bags of dice.</p>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#cse587Autils.DiceObjects.BagOfDice.BagOfDice" title="cse587Autils.DiceObjects.BagOfDice.BagOfDice">BagOfDice</a></p>
 </dd>
+<dt class="field-even">Examples<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
 </dl>
-<section id="bagofdice-difference-operator-examples">
-<h3>BagOfDice Difference Operator Examples<a class="headerlink" href="#bagofdice-difference-operator-examples" title="Permalink to this heading">#</a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fair_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">([</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">biased_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">([</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">my_bag</span> <span class="o">=</span> <span class="n">BagOfDice</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="n">fair_die</span><span class="p">,</span> <span class="n">biased_die</span><span class="p">])</span>
@@ -380,7 +397,6 @@ absolute differences between the die priors of the two bags of dice.</p>
 <span class="go">BagOfDice([0.1, -0.1], [fair_die, biased_die])</span>
 </pre></div>
 </div>
-</section>
 </dd></dl>
 
 <dl class="py property">
@@ -434,8 +450,19 @@ absolute differences between the die priors of the two bags of dice.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If the number of rolls is less than 1</p>
 </dd>
 </dl>
-<section id="draw-examples">
-<span id="id1"></span><h3>Draw Examples<a class="headerlink" href="#draw-examples" title="Permalink to this heading">#</a></h3>
+<dl class="field-list simple" id="draw-examples">
+<dt class="field-odd">Examples<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>num_rolls</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
+<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> | </em><em>None</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><em>ndarray</em></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.dtype.html#numpy.dtype" title="(in NumPy v1.25)"><em>dtype</em></a>[<em>int64</em>]]</p>
+</dd>
+</dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fair_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">([</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span>
@@ -446,7 +473,6 @@ absolute differences between the die priors of the two bags of dice.</p>
 <span class="go">True</span>
 </pre></div>
 </div>
-</section>
 </dd></dl>
 
 <dl class="py method">
@@ -469,9 +495,9 @@ dice.</p>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
 </dd>
+<dt class="field-even">Examples<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
 </dl>
-<section id="likelihood-examples">
-<span id="id2"></span><h3>Likelihood Examples<a class="headerlink" href="#likelihood-examples" title="Permalink to this heading">#</a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">cse587Autils.DiceObjects.Die</span> <span class="kn">import</span> <span class="n">Die</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">cse587Autils.DiceObjects.BagOfDice</span> <span class="kn">import</span> <span class="n">BagOfDice</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span>
@@ -483,7 +509,6 @@ dice.</p>
 <span class="go">1.0684028233559576e-24</span>
 </pre></div>
 </div>
-</section>
 </dd></dl>
 
 <dl class="py method">
@@ -500,7 +525,6 @@ dice.</p>
 </dl>
 </dd></dl>
 
-</section>
 </dd></dl>
 
 </section>
@@ -585,7 +609,7 @@ dice.</p>
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=2389946f"></script>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=73cda6fb"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>

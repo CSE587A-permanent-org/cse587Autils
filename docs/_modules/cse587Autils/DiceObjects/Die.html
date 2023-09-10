@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <!-- Generated with Sphinx 7.1.1 and Furo 2023.07.26 -->
-        <title>cse587Autils.DiceObjects.Die - cse587Autils 0.1.0 documentation</title>
+        <title>cse587Autils.DiceObjects.Die - cse587Autils 2.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">cse587Autils 0.1.0 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">cse587Autils 2.0.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">cse587Autils 0.1.0 documentation</span>
+  <span class="sidebar-brand-text">cse587Autils 2.0.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -167,6 +167,23 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../DiceObjects/Usage/BagOfDice.html">BagOfDice Usage</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../SequenceObjects/index.html">Sequence Objects</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Sequence Objects</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../SequenceObjects/API/index.html">Site Model API</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of Site Model API</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../SequenceObjects/API/SiteModel.html">SiteModel</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../SequenceObjects/Usage/index.html">Sequence Objects Usage</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Sequence Objects Usage</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../SequenceObjects/Usage/SiteModel.html">SiteModel Usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../utils/index.html">utils</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of utils</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../utils/check_probability.html">check_probability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../utils/flatten_2d_list.html">flatten_2d_list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../utils/euclidean_distance_lists.html">euclidean_distance_lists</a></li>
 </ul>
 </li>
 </ul>
@@ -246,31 +263,28 @@
 <span class="sd">    :param face_probs: The probabilities of the faces</span>
 <span class="sd">    :type face_probs: list of float</span>
 
-<span class="sd">    Example</span>
-<span class="sd">    -------</span>
-<span class="sd">    To create a die with 6 faces where the probability of rolling </span>
-<span class="sd">    each face is equal, you would do:</span>
+<span class="sd">    :Examples:</span>
 
 <span class="sd">    &gt;&gt;&gt; face_probs = [1/6]*6</span>
 <span class="sd">    &gt;&gt;&gt; my_die = Die(face_probs)</span>
 <span class="sd">    &gt;&gt;&gt; len(my_die)</span>
 <span class="sd">    6</span>
 
-<span class="sd">    # access the probability of a face. Remember that python is zero-indexed!</span>
+<span class="sd">    &gt;&gt;&gt; # access the probability of a face. Remember that python is zero-indexed!</span>
 <span class="sd">    &gt;&gt;&gt; my_die[0]</span>
 <span class="sd">    0.16666666666666666</span>
 
-<span class="sd">    # accessing a probability that is negative or outside of the range of the die</span>
-<span class="sd">    # will raise an IndexError</span>
+<span class="sd">    &gt;&gt;&gt; # accessing a probability that is negative or outside of the range of the</span>
+<span class="sd">    &gt;&gt;&gt; # die will raise an IndexError</span>
 <span class="sd">    &gt;&gt;&gt; my_die[7]  # doctest: +IGNORE_EXCEPTION_DETAIL</span>
 <span class="sd">    Traceback (most recent call last):</span>
 <span class="sd">    ...</span>
 <span class="sd">    IndexError</span>
 
-<span class="sd">    # rolling the die will return a random face</span>
-<span class="sd">    # remember python is 0 indexed AND the upper bound is exclusive, meaning </span>
-<span class="sd">    # in order to get the numbers 0, 1, 2, 3, 4, 5, you need to pass in the</span>
-<span class="sd">    # range 0, 6</span>
+<span class="sd">    &gt;&gt;&gt; # rolling the die will return a random face</span>
+<span class="sd">    &gt;&gt;&gt; # remember python is 0 indexed AND the upper bound is exclusive, meaning</span>
+<span class="sd">    &gt;&gt;&gt; # in order to get the numbers 0, 1, 2, 3, 4, 5, you need to pass in the</span>
+<span class="sd">    &gt;&gt;&gt; # range 0, 6</span>
 <span class="sd">    &gt;&gt;&gt; my_die.roll() in set(range(0, 6))</span>
 <span class="sd">    True</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -312,15 +326,14 @@
 <span class="sd">        :return: The representation of the `Die` object</span>
 <span class="sd">        :rtype: str</span>
 
-<span class="sd">        Die Print Examples</span>
-<span class="sd">        ------------------</span>
+<span class="sd">        :Exmaples:</span>
+
 <span class="sd">        &gt;&gt;&gt; face_probs = [1/6]*6</span>
 <span class="sd">        &gt;&gt;&gt; my_die = Die(face_probs)</span>
 <span class="sd">        &gt;&gt;&gt; my_die</span>
-<span class="sd">        Die([0.16666666666666666, 0.16666666666666666, 0.16666666666666666,</span>
-<span class="sd">            0.16666666666666666, 0.16666666666666666, 0.16666666666666666])</span>
+<span class="sd">        Die([0.1667, 0.1667, 0.1667, 0.1667, 0.1667, 0.1667])</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Die(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">face_probs</span><span class="si">}</span><span class="s1">)&#39;</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Die(</span><span class="si">{</span><span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">face_probs</span><span class="p">]</span><span class="si">}</span><span class="s1">)&#39;</span></div>
 
 <div class="viewcode-block" id="Die.__len__"><a class="viewcode-back" href="../../../DiceObjects/API/Die.html#cse587Autils.DiceObjects.Die.Die.__len__">[docs]</a>    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -329,8 +342,8 @@
 <span class="sd">        :return: The length of the face probabilities (face_probs)</span>
 <span class="sd">        :rtype: int</span>
 
-<span class="sd">        Die Length Examples</span>
-<span class="sd">        -------------------</span>
+<span class="sd">        :Examples:</span>
+
 <span class="sd">        &gt;&gt;&gt; face_probs = [1/6]*6</span>
 <span class="sd">        &gt;&gt;&gt; my_die = Die(face_probs)</span>
 <span class="sd">        &gt;&gt;&gt; len(my_die)</span>
@@ -349,8 +362,8 @@
 <span class="sd">        :return: The probability of the face at the given index</span>
 <span class="sd">        :rtype: float</span>
 
-<span class="sd">        Die Item Getter Examples</span>
-<span class="sd">        ------------------------</span>
+<span class="sd">        :Examples:</span>
+
 <span class="sd">        &gt;&gt;&gt; face_probs = [1/6]*6</span>
 <span class="sd">        &gt;&gt;&gt; my_die = Die(face_probs)</span>
 <span class="sd">        &gt;&gt;&gt; my_die[0]</span>
@@ -365,19 +378,21 @@
 
 <div class="viewcode-block" id="Die.__sub__"><a class="viewcode-back" href="../../../DiceObjects/API/Die.html#cse587Autils.DiceObjects.Die.Die.__sub__">[docs]</a>    <span class="k">def</span> <span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;Die&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Subtract the face probabilities (face_probs) of one Die from another Die. Sum the result. </span>
-<span class="sd">        This provides a measure of distance between two Die.</span>
+<span class="sd">        Subtract the face probabilities (face_probs) of one Die from another</span>
+<span class="sd">            Die. Sum the result. This provides a measure of distance between</span>
+<span class="sd">            two Die.</span>
 
 <span class="sd">        :param other: The other Die</span>
 <span class="sd">        :type other: Die</span>
-<span class="sd">        :return: The sum of the differences between the face probabilities (face_probs) of two Die</span>
+<span class="sd">        :return: The sum of the differences between the face probabilities</span>
+<span class="sd">            (face_probs) of two Die</span>
 <span class="sd">        :rtype: float</span>
 
 <span class="sd">        :raise TypeError: If the other Die is not a Die</span>
 <span class="sd">        :raise ValueError: If the other Die has a different number of faces</span>
 
-<span class="sd">        Die Difference Operator Examples</span>
-<span class="sd">        --------------------------------</span>
+<span class="sd">        :Examples:</span>
+
 <span class="sd">        &gt;&gt;&gt; face_probs = [1/6]*6</span>
 <span class="sd">        &gt;&gt;&gt; my_die = Die(face_probs)</span>
 <span class="sd">        &gt;&gt;&gt; other_die = Die(face_probs)</span>
@@ -401,8 +416,8 @@
 <span class="sd">        :return: The result of rolling the die</span>
 <span class="sd">        :rtype: int</span>
 
-<span class="sd">        Die Roll Examples</span>
-<span class="sd">        -----------------</span>
+<span class="sd">        :Examples:</span>
+
 <span class="sd">        &gt;&gt;&gt; import numpy as np</span>
 <span class="sd">        &gt;&gt;&gt; np.random.seed(42)</span>
 <span class="sd">        &gt;&gt;&gt; face_probs = [1/6]*6</span>
@@ -413,49 +428,6 @@
         <span class="k">if</span> <span class="n">seed</span><span class="p">:</span>
             <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)),</span> <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">face_probs</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Die.expectation"><a class="viewcode-back" href="../../../DiceObjects/API/Die.html#cse587Autils.DiceObjects.Die.Die.expectation">[docs]</a>    <span class="k">def</span> <span class="nf">expectation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                    <span class="n">observed_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the probability of the observed data given the Die </span>
-<span class="sd">            face probabilities (face_probs).</span>
-
-<span class="sd">        :param observed_data: A list of observed face counts where the index</span>
-<span class="sd">            of each element corresponds to the face, and the count is the</span>
-<span class="sd">            number of times that face was observed. The sum of the counts is</span>
-<span class="sd">            the number of times the die was rolled.</span>
-<span class="sd">        :type observed_data: NDArray[:py:class:`numpy.int_`]</span>
-
-<span class="sd">        :return: The probability of the observed data given the Die face </span>
-<span class="sd">            probability.</span>
-<span class="sd">        :rtype: NDArray[:py:class:`numpy.float_`]</span>
-
-<span class="sd">        :raises TypeError: If the face counts is not a </span>
-<span class="sd">            numpy array or a base python list.</span>
-<span class="sd">        :raises ValueError: If the face counts is an empty list.</span>
-
-<span class="sd">        Die Expectation Example</span>
-<span class="sd">        -----------------------</span>
-<span class="sd">        &gt;&gt;&gt; from numpy import array</span>
-<span class="sd">        &gt;&gt;&gt; face_counts = array([1, 0, 0, 0, 0])</span>
-<span class="sd">        &gt;&gt;&gt; face_probs = [1/6] * len(face_counts)</span>
-<span class="sd">        &gt;&gt;&gt; my_die = Die(face_probs)</span>
-<span class="sd">        &gt;&gt;&gt; [round(x, 2) for x in my_die.expectation(face_counts)]</span>
-<span class="sd">        [0.17, 1.0, 1.0, 1.0, 1.0]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">observed_data</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;observed_data must be a list or numpy array&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">observed_data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;observed_data must not be empty&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">observed_data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="n">observed_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">observed_data</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">observed_data</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">face_probs</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;observed_data has fewer elements than &#39;</span>
-                           <span class="s1">&#39;face_probs. Appending zeros to observed_data.&#39;</span><span class="p">)</span>
-            <span class="n">observed_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">observed_data</span><span class="p">,</span>
-                                      <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">face_probs</span><span class="p">)</span> <span class="o">-</span>
-                                               <span class="nb">len</span><span class="p">(</span><span class="n">observed_data</span><span class="p">)))</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">face_probs</span><span class="p">,</span> <span class="n">observed_data</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">result</span></div>
 
 <div class="viewcode-block" id="Die.likelihood"><a class="viewcode-back" href="../../../DiceObjects/API/Die.html#cse587Autils.DiceObjects.Die.Die.likelihood">[docs]</a>    <span class="k">def</span> <span class="nf">likelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observed_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the likelihood of the observed data given the Die </span>
@@ -475,9 +447,14 @@
 <span class="sd">            numpy array or a base python list.</span>
 <span class="sd">        :raises ValueError: If the face counts is an empty list.</span>
 
-<span class="sd">        Die Likelihood Example</span>
-<span class="sd">        ----------------------</span>
-<span class="sd">        # TODO write example -- see openai</span>
+<span class="sd">        :Examples:</span>
+
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; face_probs = [1/4]*4</span>
+<span class="sd">        &gt;&gt;&gt; my_die = Die(face_probs)</span>
+<span class="sd">        &gt;&gt;&gt; observed_data = np.array([1]*4)</span>
+<span class="sd">        &gt;&gt;&gt; round(my_die.likelihood(observed_data), 4)</span>
+<span class="sd">        0.0039</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># check input data types</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">observed_data</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
@@ -539,7 +516,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=2389946f"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=73cda6fb"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
