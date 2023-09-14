@@ -403,6 +403,11 @@ class SiteModel:
                 + background_probs_diff)
 
     def __copy__(self):
+        """Copy method for SiteModel
+
+        :return: A deep copy of the SiteModel instance.
+        :rtype: SiteModel
+        """
         new_instance = SiteModel()
         new_instance._precision = self._precision
         new_instance._tolerance = self._tolerance
