@@ -19,7 +19,7 @@ def test_valid_construction():
 
     sm2 = SiteModel(0, site_probs, background_probs)
     assert sm2.background_prior == 1
-
+    
 
 def test_logging(caplog):
     caplog.set_level(logging.WARNING)
