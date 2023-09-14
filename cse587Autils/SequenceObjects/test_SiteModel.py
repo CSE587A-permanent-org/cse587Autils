@@ -1,4 +1,5 @@
 import logging
+from copy import copy
 import pytest
 from cse587Autils.SequenceObjects.SiteModel import SiteModel
 
@@ -62,3 +63,26 @@ def test_site_model_subtraction():
                     [0.25]*4)
     result = sm1 - sm2
     assert result == 0.7414213562373095
+
+def test_copy_method():
+    original = SiteModel(
+        site_prior=0.2,
+        site_probs=[[0.25, 0.25, 0.25, 0.25], [0.1, 0.2, 0.3, 0.4]],
+        background_probs=[0.25, 0.25, 0.25, 0.25]
+    )
+
+    copied = copy(original)
+
+    # Test if the objects are different
+    assert original -  copied == 0
+
+    # Test if the attributes are the same
+    assert original.site_prior == copied.site_prior
+    assert original.site_probs == copied.site_probs
+    assert original.background_probs == copied.background_probs
+    assert original.precision == copied.precision
+    assert original.tolerance == copied.tolerance
+
+    # Test if modifications to the copy don't affect the original
+    copied.site_prior = 0.3
+    assert original.site_prior != copied.site_prior

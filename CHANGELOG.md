@@ -1,3 +1,9 @@
+# 2.1.0
+
+Key Points
+
+- Adding __copy__ method to SiteMode
+
 # 2.0.1
 
 Key Points

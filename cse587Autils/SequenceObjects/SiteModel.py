@@ -1,6 +1,7 @@
 """Classes and functions for the siteEM assignment series"""
 import sys
 import logging
+import copy
 from typing import List
 from cse587Autils.utils.check_probability import check_probability
 from cse587Autils.utils.flatten_2d_list import flatten_2d_list
@@ -400,3 +401,18 @@ class SiteModel:
         return (prior_diff
                 + site_probs_diff
                 + background_probs_diff)
+
+    def __copy__(self):
+        new_instance = SiteModel()
+        new_instance._precision = self._precision
+        new_instance._tolerance = self._tolerance
+
+        # Deep copy the lists so that they are new instances
+        new_instance._site_probs = copy.deepcopy(self._site_probs)
+        new_instance._background_probs = copy.deepcopy(self._background_probs)
+
+        # Copy the simple float attributes
+        new_instance._site_prior = self._site_prior
+        new_instance._background_prior = self._background_prior
+
+        return new_instance
