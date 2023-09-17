@@ -1,7 +1,7 @@
-Site Model API
-==============
+Sequence Model API
+==================
 
 .. toctree::
    :maxdepth: 1
 
-   SiteModel
+   SequenceModel
