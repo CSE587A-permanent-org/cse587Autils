@@ -1,4 +1,6 @@
-def flatten_2d_list(lst: list[list]) -> list:
+from numpy import ndarray
+
+def flatten_2d_list(lst: (list[list], ndarray)) -> list:
     """
     flatten a list of lists into a single list
 
@@ -21,6 +23,6 @@ def flatten_2d_list(lst: list[list]) -> list:
     >>> flatten_2d_list([])
     []
     """
-    if not isinstance(lst, list):
+    if not isinstance(lst, (list, ndarray)):
         raise TypeError("lst must be a list")
     return [item for sublist in lst for item in sublist]

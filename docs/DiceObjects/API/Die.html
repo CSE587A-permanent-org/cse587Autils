@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="BagOfDice" href="BagOfDice.html" /><link rel="prev" title="Dice Objects API" href="index.html" />
 
     <!-- Generated with Sphinx 7.1.1 and Furo 2023.07.26 -->
-        <title>Die - cse587Autils 2.0.0 documentation</title>
+        <title>Die - cse587Autils 3.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
@@ -124,7 +124,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">cse587Autils 2.0.0 documentation</div></a>
+      <a href="../../index.html"><div class="brand">cse587Autils 3.0.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -147,7 +147,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">cse587Autils 2.0.0 documentation</span>
+  <span class="sidebar-brand-text">cse587Autils 3.0.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -171,12 +171,12 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../SequenceObjects/index.html">Sequence Objects</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Sequence Objects</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../SequenceObjects/API/index.html">Site Model API</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of Site Model API</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../SequenceObjects/API/SiteModel.html">SiteModel</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../SequenceObjects/API/index.html">Sequence Model API</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of Sequence Model API</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../SequenceObjects/API/SequenceModel.html">SequenceModel</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../SequenceObjects/Usage/index.html">Sequence Objects Usage</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Sequence Objects Usage</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../SequenceObjects/Usage/SiteModel.html">SiteModel Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../SequenceObjects/Usage/SequenceModel.html">SequenceModel Usage</a></li>
 </ul>
 </li>
 </ul>
@@ -262,6 +262,75 @@
 </pre></div>
 </div>
 <dl class="py method">
+<dt class="sig sig-object py" id="cse587Autils.DiceObjects.Die.Die.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">face_probs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cse587Autils/DiceObjects/Die.html#Die.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cse587Autils.DiceObjects.Die.Die.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>See class docstring for details</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>face_probs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>] </em><em>| </em><em>None</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cse587Autils.DiceObjects.Die.Die.face_probs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">face_probs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cse587Autils.DiceObjects.Die.Die.face_probs" title="Permalink to this definition">#</a></dt>
+<dd><p>The getter of the <cite>face_probs</cite> attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The face probabilities (face_probs)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cse587Autils.DiceObjects.Die.Die.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cse587Autils/DiceObjects/Die.html#Die.__repr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cse587Autils.DiceObjects.Die.Die.__repr__" title="Permalink to this definition">#</a></dt>
+<dd><p>The representation of the <cite>Die</cite> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The representation of the <cite>Die</cite> object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+<dt class="field-odd">Exmaples<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">face_probs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">(</span><span class="n">face_probs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span>
+<span class="go">Die([0.1667, 0.1667, 0.1667, 0.1667, 0.1667, 0.1667])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cse587Autils.DiceObjects.Die.Die.__len__">
+<span class="sig-name descname"><span class="pre">__len__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cse587Autils/DiceObjects/Die.html#Die.__len__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cse587Autils.DiceObjects.Die.Die.__len__" title="Permalink to this definition">#</a></dt>
+<dd><p>The getter of the length of the <cite>face_probs</cite> attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The length of the face probabilities (face_probs)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+<dt class="field-odd">Examples<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">face_probs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">(</span><span class="n">face_probs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">my_die</span><span class="p">)</span>
+<span class="go">6</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="cse587Autils.DiceObjects.Die.Die.__getitem__">
 <span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cse587Autils/DiceObjects/Die.html#Die.__getitem__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cse587Autils.DiceObjects.Die.Die.__getitem__" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the probability of the face at a given index.</p>
@@ -288,61 +357,6 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">(</span><span class="n">face_probs</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="go">0.16666666666666666</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cse587Autils.DiceObjects.Die.Die.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">face_probs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cse587Autils/DiceObjects/Die.html#Die.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cse587Autils.DiceObjects.Die.Die.__init__" title="Permalink to this definition">#</a></dt>
-<dd><p>See class docstring for details</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>face_probs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>] </em><em>| </em><em>None</em>) – </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cse587Autils.DiceObjects.Die.Die.__len__">
-<span class="sig-name descname"><span class="pre">__len__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cse587Autils/DiceObjects/Die.html#Die.__len__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cse587Autils.DiceObjects.Die.Die.__len__" title="Permalink to this definition">#</a></dt>
-<dd><p>The getter of the length of the <cite>face_probs</cite> attribute.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The length of the face probabilities (face_probs)</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
-</dd>
-<dt class="field-odd">Examples<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">face_probs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">(</span><span class="n">face_probs</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">my_die</span><span class="p">)</span>
-<span class="go">6</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cse587Autils.DiceObjects.Die.Die.__repr__">
-<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cse587Autils/DiceObjects/Die.html#Die.__repr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cse587Autils.DiceObjects.Die.Die.__repr__" title="Permalink to this definition">#</a></dt>
-<dd><p>The representation of the <cite>Die</cite> object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The representation of the <cite>Die</cite> object</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
-</dd>
-<dt class="field-odd">Exmaples<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">face_probs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">(</span><span class="n">face_probs</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span>
-<span class="go">Die([0.1667, 0.1667, 0.1667, 0.1667, 0.1667, 0.1667])</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -384,18 +398,31 @@ two Die.</p>
 </div>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="cse587Autils.DiceObjects.Die.Die.face_probs">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">face_probs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cse587Autils.DiceObjects.Die.Die.face_probs" title="Permalink to this definition">#</a></dt>
-<dd><p>The getter of the <cite>face_probs</cite> attribute.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cse587Autils.DiceObjects.Die.Die.roll">
+<span class="sig-name descname"><span class="pre">roll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cse587Autils/DiceObjects/Die.html#Die.roll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cse587Autils.DiceObjects.Die.Die.roll" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the result of rolling the die.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The face probabilities (face_probs)</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>optional</em>) – The seed for the random number generator</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The result of rolling the die</p>
 </dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+<dt class="field-even">Examples<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
 </dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">face_probs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">(</span><span class="n">face_probs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -407,7 +434,7 @@ two Die.</p>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>observed_data</strong> (NDArray[<a class="reference external" href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int_" title="(in NumPy v1.25)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.int_</span></code></a>]) – A list of observed face counts where the index
+<dd class="field-odd"><p><strong>observed_data</strong> (NDArray[<a class="reference external" href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int_" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.int_</span></code></a>]) – A list of observed face counts where the index
 of each element corresponds to the face, and the count is
 the number of times that face was observed. The sum of the counts
 is the number of times the die was rolled.</p>
@@ -435,33 +462,6 @@ numpy array or a base python list.</p></li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">observed_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">my_die</span><span class="o">.</span><span class="n">likelihood</span><span class="p">(</span><span class="n">observed_data</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
 <span class="go">0.0039</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cse587Autils.DiceObjects.Die.Die.roll">
-<span class="sig-name descname"><span class="pre">roll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cse587Autils/DiceObjects/Die.html#Die.roll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cse587Autils.DiceObjects.Die.Die.roll" title="Permalink to this definition">#</a></dt>
-<dd><p>Return the result of rolling the die.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>optional</em>) – The seed for the random number generator</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The result of rolling the die</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
-</dd>
-<dt class="field-even">Examples<span class="colon">:</span></dt>
-<dd class="field-even"><p></p></dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">face_probs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="mi">6</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span> <span class="o">=</span> <span class="n">Die</span><span class="p">(</span><span class="n">face_probs</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">my_die</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="go">True</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -527,14 +527,14 @@ numpy array or a base python list.</p></li>
             <ul>
 <li><a class="reference internal" href="#">Die</a><ul>
 <li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die"><code class="docutils literal notranslate"><span class="pre">Die</span></code></a><ul>
-<li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.__getitem__"><code class="docutils literal notranslate"><span class="pre">Die.__getitem__()</span></code></a></li>
 <li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.__init__"><code class="docutils literal notranslate"><span class="pre">Die.__init__()</span></code></a></li>
-<li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.__len__"><code class="docutils literal notranslate"><span class="pre">Die.__len__()</span></code></a></li>
-<li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.__repr__"><code class="docutils literal notranslate"><span class="pre">Die.__repr__()</span></code></a></li>
-<li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.__sub__"><code class="docutils literal notranslate"><span class="pre">Die.__sub__()</span></code></a></li>
 <li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.face_probs"><code class="docutils literal notranslate"><span class="pre">Die.face_probs</span></code></a></li>
-<li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.likelihood"><code class="docutils literal notranslate"><span class="pre">Die.likelihood()</span></code></a></li>
+<li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.__repr__"><code class="docutils literal notranslate"><span class="pre">Die.__repr__()</span></code></a></li>
+<li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.__len__"><code class="docutils literal notranslate"><span class="pre">Die.__len__()</span></code></a></li>
+<li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.__getitem__"><code class="docutils literal notranslate"><span class="pre">Die.__getitem__()</span></code></a></li>
+<li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.__sub__"><code class="docutils literal notranslate"><span class="pre">Die.__sub__()</span></code></a></li>
 <li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.roll"><code class="docutils literal notranslate"><span class="pre">Die.roll()</span></code></a></li>
+<li><a class="reference internal" href="#cse587Autils.DiceObjects.Die.Die.likelihood"><code class="docutils literal notranslate"><span class="pre">Die.likelihood()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -548,7 +548,7 @@ numpy array or a base python list.</p></li>
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=73cda6fb"></script>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=8ebd99bd"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>

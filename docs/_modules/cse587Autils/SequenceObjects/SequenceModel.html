@@ -223,7 +223,9 @@
 <span></span><span class="sd">&quot;&quot;&quot;Classes and functions for the siteEM assignment series&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">cse587Autils.utils.check_probability</span> <span class="kn">import</span> <span class="n">check_probability</span>
 <span class="kn">from</span> <span class="nn">cse587Autils.utils.flatten_2d_list</span> <span class="kn">import</span> <span class="n">flatten_2d_list</span>
 <span class="kn">from</span> <span class="nn">cse587Autils.utils.euclidean_distance_lists</span> \
@@ -239,12 +241,37 @@
 
 <span class="sd">    :Example:</span>
 
+<span class="sd">    Initialize a SequenceModel object:</span>
+
 <span class="sd">    &gt;&gt;&gt; site_prior = 0.2</span>
 <span class="sd">    &gt;&gt;&gt; site_base_probs = [[0.25, 0.25, 0.25, 0.25], [0.1, 0.2, 0.3, 0.4]]</span>
 <span class="sd">    &gt;&gt;&gt; background_base_probs = [1/4]*4</span>
 <span class="sd">    &gt;&gt;&gt; sm = SequenceModel(site_prior, site_base_probs, background_base_probs)</span>
-<span class="sd">    &gt;&gt;&gt; len(sm)</span>
-<span class="sd">    2</span>
+
+<span class="sd">    The motif_length property is the length of the site_base_probs and an</span>
+<span class="sd">    also be accessed by len(sm)</span>
+
+<span class="sd">    &gt;&gt;&gt; sm.motif_length == len(sm) == 2</span>
+<span class="sd">    True</span>
+
+<span class="sd">    A deepcopy method is implemented</span>
+
+<span class="sd">    &gt;&gt;&gt; from copy import deepcopy</span>
+<span class="sd">    &gt;&gt;&gt; sm_copy = deepcopy(sm)</span>
+<span class="sd">    &gt;&gt;&gt; sm_copy is sm</span>
+<span class="sd">    False</span>
+<span class="sd">    &gt;&gt;&gt; sm_copy.site_prior == sm.site_prior</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; sm_copy.site_prior = 0.1</span>
+<span class="sd">    &gt;&gt;&gt; sm_copy.site_prior == sm.site_prior</span>
+<span class="sd">    False</span>
+
+<span class="sd">    And a diff method exists. Using the `-` operator is equivalent</span>
+
+<span class="sd">    &gt;&gt;&gt; sm.diff(sm_copy) == (sm - sm_copy) != 0</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; sm.diff(sm) == 0</span>
+<span class="sd">    True</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="SequenceModel.__init__"><a class="viewcode-back" href="../../../SequenceObjects/API/SequenceModel.html#cse587Autils.SequenceObjects.SequenceModel.SequenceModel.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -261,7 +288,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_precision</span> <span class="o">=</span> <span class="n">precision</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tolerance</span> <span class="o">=</span> <span class="n">tolerance</span>
-        <span class="k">if</span> <span class="n">site_prior</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">site_prior</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">site_prior</span> <span class="o">=</span> <span class="n">site_prior</span>
         <span class="k">if</span> <span class="n">site_base_probs</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">site_base_probs</span> <span class="o">=</span> <span class="n">site_base_probs</span>
@@ -359,8 +386,8 @@
 
     <span class="nd">@site_prior</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">site_prior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prior</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Setting site_prior will also set background_prior to &#39;</span>
-                       <span class="s1">&#39;1 - site_prior&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Setting site_prior will also set background_prior to &#39;</span>
+                    <span class="s1">&#39;1 - site_prior&#39;</span><span class="p">)</span>
         <span class="n">rounded_site_prior</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">prior</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">)</span>
         <span class="n">rounded_background_prior</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">prior</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">)</span>
         <span class="n">check_probability</span><span class="p">([</span><span class="n">rounded_site_prior</span><span class="p">,</span> <span class="n">rounded_background_prior</span><span class="p">],</span>
@@ -396,8 +423,8 @@
 
     <span class="nd">@background_prior</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">background_prior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prior</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Setting background_prior will also set site_prior to &#39;</span>
-                       <span class="s1">&#39;1 - background_prior&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Setting background_prior will also set site_prior to &#39;</span>
+                    <span class="s1">&#39;1 - background_prior&#39;</span><span class="p">)</span>
         <span class="n">rounded_site_prior</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">prior</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">)</span>
         <span class="n">rounded_background_prior</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">prior</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">)</span>
         <span class="n">check_probability</span><span class="p">([</span><span class="n">rounded_site_prior</span><span class="p">,</span> <span class="n">rounded_background_prior</span><span class="p">],</span>
@@ -485,7 +512,59 @@
         <span class="n">check_probability</span><span class="p">(</span><span class="n">background_base_probs</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tolerance</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_background_base_probs</span> <span class="o">=</span> <span class="n">background_base_probs</span>
 
-<div class="viewcode-block" id="SequenceModel.__repr__"><a class="viewcode-back" href="../../../SequenceObjects/API/SequenceModel.html#cse587Autils.SequenceObjects.SequenceModel.SequenceModel.__repr__">[docs]</a>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">motif_length</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The motif_length property will return the length of the site_base_probs,</span>
+<span class="sd">        which is the length of the motif represented by the SequenceModel.</span>
+<span class="sd">        If site_base_probs is not set, the motif_length will return None.</span>
+<span class="sd">        If you use motif_length as a setter, it will generate a random</span>
+<span class="sd">        site_base_probs with the specified motif_length. If you want to generate</span>
+<span class="sd">        random site_base_probs with a specified motif_length and seed, you can</span>
+<span class="sd">        use the motif_length setter with a seed parameter.</span>
+<span class="sd">        If site_base_probs is already set and you set motif_length, the current</span>
+<span class="sd">        site_base_probs will be overwritten with a random site_base_probs list of</span>
+<span class="sd">        the specified length.</span>
+
+<span class="sd">        :return: Length of the motif represented by the SequenceModel instance.</span>
+<span class="sd">        :rtype: int</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; sm = SequenceModel()</span>
+<span class="sd">        &gt;&gt;&gt; sm.site_base_probs = [[1/4]*4, [1/4]*4, [1/4]*4]</span>
+<span class="sd">        &gt;&gt;&gt; sm.motif_length == 3</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; sm.motif_length = 4</span>
+<span class="sd">        &gt;&gt;&gt; sm.motif_length == 4</span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@motif_length</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">motif_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">motif_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">motif_length</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;motif_length must be an integer.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">motif_length</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;motif_length must be greater than 0.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;seed must be an integer.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_base_probs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Overwriting current site_base_probs.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">seed</span><span class="p">:</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Generating random site_base_probs with &quot;</span>
+                    <span class="s2">&quot;motif_length: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">motif_length</span><span class="p">))</span>
+        <span class="c1"># Generate a 2D array with random real numbers between 0.5 and 1.0</span>
+        <span class="n">random_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="p">(</span><span class="n">motif_length</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+        <span class="c1"># Normalize each row so that the sum of each row equals 1</span>
+        <span class="n">normalized_matrix</span> <span class="o">=</span> <span class="p">(</span><span class="n">random_matrix</span> <span class="o">/</span>
+                             <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">random_matrix</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">normalized_matrix</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate an unambiguous string representation of the SequenceModel</span>
 <span class="sd">            instance.</span>
@@ -507,9 +586,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;SequenceModel(site_prior=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">site_prior</span><span class="si">}</span><span class="s1">, &#39;</span>
                 <span class="sa">f</span><span class="s1">&#39;site_base_probs=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">site_base_probs</span><span class="si">}</span><span class="s1">, &#39;</span>
-                <span class="sa">f</span><span class="s1">&#39;background_base_probs=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">background_base_probs</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span></div>
+                <span class="sa">f</span><span class="s1">&#39;background_base_probs=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">background_base_probs</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SequenceModel.__str__"><a class="viewcode-back" href="../../../SequenceObjects/API/SequenceModel.html#cse587Autils.SequenceObjects.SequenceModel.SequenceModel.__str__">[docs]</a>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate a human-readable string representation of the SequenceModel</span>
 <span class="sd">            instance.</span>
@@ -533,9 +612,9 @@
         <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;SequenceModel with site_prior: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">site_prior</span><span class="si">}</span><span class="s1">, &#39;</span>
                 <span class="sa">f</span><span class="s1">&#39;background_prior: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">background_prior</span><span class="si">}</span><span class="s1">, &#39;</span>
                 <span class="sa">f</span><span class="s1">&#39;site_base_probs: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">site_base_probs</span><span class="si">}</span><span class="s1">, &#39;</span>
-                <span class="sa">f</span><span class="s1">&#39;background_base_probs: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">background_base_probs</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+                <span class="sa">f</span><span class="s1">&#39;background_base_probs: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">background_base_probs</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SequenceModel.__len__"><a class="viewcode-back" href="../../../SequenceObjects/API/SequenceModel.html#cse587Autils.SequenceObjects.SequenceModel.SequenceModel.__len__">[docs]</a>    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the number of positions in the site sequence.</span>
 
 <span class="sd">        :return: Number of positions in the site sequence.</span>
@@ -552,9 +631,9 @@
             <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">site_base_probs</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;site_base_probs not set&#39;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
+            <span class="k">return</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="SequenceModel.__sub__"><a class="viewcode-back" href="../../../SequenceObjects/API/SequenceModel.html#cse587Autils.SequenceObjects.SequenceModel.SequenceModel.__sub__">[docs]</a>    <span class="k">def</span> <span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;SequenceModel&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;SequenceModel&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the absolute difference between two SequenceModels.</span>
 
@@ -575,11 +654,11 @@
 
 <span class="sd">        :Example:</span>
 
-<span class="sd">        &gt;&gt;&gt; sm1 = SequenceModel(0.2, </span>
-<span class="sd">        ...                 [[0.1, 0.2, 0.3, 0.4], [0.3, 0.4, 0.3, 0.0]], </span>
+<span class="sd">        &gt;&gt;&gt; sm1 = SequenceModel(0.2,</span>
+<span class="sd">        ...                 [[0.1, 0.2, 0.3, 0.4], [0.3, 0.4, 0.3, 0.0]],</span>
 <span class="sd">        ...                 [0.25, 0.25, 0.25, 0.25])</span>
-<span class="sd">        &gt;&gt;&gt; sm2 = SequenceModel(0.1, </span>
-<span class="sd">        ...                 [[0.1, 0.1, 0.1, 0.7], [0.2, 0.2, 0.2, 0.4]], </span>
+<span class="sd">        &gt;&gt;&gt; sm2 = SequenceModel(0.1,</span>
+<span class="sd">        ...                 [[0.1, 0.1, 0.1, 0.7], [0.2, 0.2, 0.2, 0.4]],</span>
 <span class="sd">        ...                 [0.25, 0.25, 0.25, 0.25])</span>
 <span class="sd">        &gt;&gt;&gt; sm1 - sm2</span>
 <span class="sd">        0.7414213562373095</span>
@@ -599,7 +678,8 @@
             <span class="ow">or</span> <span class="n">other</span><span class="o">.</span><span class="n">site_base_probs</span> <span class="ow">is</span> <span class="kc">None</span>
             <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">background_base_probs</span> <span class="ow">is</span> <span class="kc">None</span>
                 <span class="ow">or</span> <span class="n">other</span><span class="o">.</span><span class="n">background_base_probs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Both SequenceModels must have all parameters set&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Both SequenceModels must have all parameters set&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">site_base_probs</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">site_base_probs</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -621,7 +701,99 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">prior_diff</span>
                 <span class="o">+</span> <span class="n">site_base_probs_diff</span>
-                <span class="o">+</span> <span class="n">background_base_probs_diff</span><span class="p">)</span></div></div>
+                <span class="o">+</span> <span class="n">background_base_probs_diff</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__deepcopy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memo</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;SequenceModel&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform a deep copy of a SequenceModel object, including all of its</span>
+<span class="sd">            nested attributes.</span>
+
+<span class="sd">        The method utilizes memoization to handle circular or recursive</span>
+<span class="sd">            references within the object structure. If an object has already</span>
+<span class="sd">            been copied, the previously created copy is returned.</span>
+
+<span class="sd">        :param memo: Dictionary used for memoization to prevent duplicate</span>
+<span class="sd">            copies of objects. This is required and used by the copy.deepcopy</span>
+<span class="sd">            method. It does not need o be passed explicitly by the user</span>
+<span class="sd">            (see the example below)</span>
+<span class="sd">        :type memo: dict</span>
+
+<span class="sd">        :raises TypeError: If any attribute is of an unsupported type for</span>
+<span class="sd">            deepcopy.</span>
+
+<span class="sd">        :return: A deep copy of the SequenceModel object.</span>
+<span class="sd">        :rtype: SequenceModel</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; sm1 = SequenceModel(0.2,</span>
+<span class="sd">        ...                     [[0.1, 0.2, 0.3, 0.4], [0.3, 0.4, 0.3, 0.0]],</span>
+<span class="sd">        ...                     [0.25, 0.25, 0.25, 0.25])</span>
+<span class="sd">        &gt;&gt;&gt; import copy</span>
+<span class="sd">        &gt;&gt;&gt; sm2 = copy.deepcopy(sm1)</span>
+<span class="sd">        &gt;&gt;&gt; sm1 is sm2</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; sm1.site_prior == sm2.site_prior</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; sm1.site_base_probs == sm2.site_base_probs</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; sm1.site_prior = 0.1</span>
+<span class="sd">        &gt;&gt;&gt; sm1.site_prior == sm2.site_prior</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; sm1.site_base_probs = [[1/4]*4, [1/4]*4]</span>
+<span class="sd">        &gt;&gt;&gt; sm1.site_base_probs == sm2.site_base_probs</span>
+<span class="sd">        False</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check if the object has already been copied</span>
+        <span class="k">if</span> <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">in</span> <span class="n">memo</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">memo</span><span class="p">[</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)]</span>
+
+        <span class="c1"># Create a new instance of the same class</span>
+        <span class="n">new_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
+
+        <span class="c1"># Add the new instance to the memo dictionary to handle</span>
+        <span class="c1"># recursive or circular references</span>
+        <span class="n">memo</span><span class="p">[</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)]</span> <span class="o">=</span> <span class="n">new_obj</span>
+
+        <span class="c1"># Deepcopy all attributes</span>
+        <span class="n">new_obj</span><span class="o">.</span><span class="n">_precision</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_precision</span><span class="p">)</span>
+        <span class="n">new_obj</span><span class="o">.</span><span class="n">_tolerance</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tolerance</span><span class="p">)</span>
+        <span class="n">new_obj</span><span class="o">.</span><span class="n">_site_prior</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_site_prior</span><span class="p">)</span>
+        <span class="n">new_obj</span><span class="o">.</span><span class="n">_background_prior</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_background_prior</span><span class="p">)</span>
+        <span class="n">new_obj</span><span class="o">.</span><span class="n">_site_base_probs</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_site_base_probs</span><span class="p">,</span> <span class="n">memo</span><span class="p">)</span>
+        <span class="n">new_obj</span><span class="o">.</span><span class="n">_background_base_probs</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_background_base_probs</span><span class="p">,</span> <span class="n">memo</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">new_obj</span>
+
+<div class="viewcode-block" id="SequenceModel.diff"><a class="viewcode-back" href="../../../SequenceObjects/API/SequenceModel.html#cse587Autils.SequenceObjects.SequenceModel.SequenceModel.diff">[docs]</a>    <span class="k">def</span> <span class="nf">diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;SequenceModel&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the absolute difference between two SequenceModels.</span>
+
+<span class="sd">        The difference is calculated by taking the sum of the euclidean</span>
+<span class="sd">        distance between [site_prior, background_prior], the euclidean</span>
+<span class="sd">        distance between each site probability, and the euclidean distance</span>
+<span class="sd">        between each background probability. Thismethod is a wrapper of the</span>
+<span class="sd">        __sub__ method, which means if there are two SequenceModels, sm1 and</span>
+<span class="sd">        sm2, sm1 - sm2 is equivalent to sm1.diff(sm2).</span>
+
+<span class="sd">        :param other: A SequenceModel to compare to.</span>
+<span class="sd">        :type other: SequenceModel</span>
+
+<span class="sd">        :return: The difference between the two SequenceModels.</span>
+<span class="sd">        :rtype: float</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; sm1 = SequenceModel(0.2,</span>
+<span class="sd">        ...                 [[0.1, 0.2, 0.3, 0.4], [0.3, 0.4, 0.3, 0.0]],</span>
+<span class="sd">        ...                 [0.25, 0.25, 0.25, 0.25])</span>
+<span class="sd">        &gt;&gt;&gt; sm2 = SequenceModel(0.1,</span>
+<span class="sd">        ...                 [[0.1, 0.1, 0.1, 0.7], [0.2, 0.2, 0.2, 0.4]],</span>
+<span class="sd">        ...                 [0.25, 0.25, 0.25, 0.25])</span>
+<span class="sd">        &gt;&gt;&gt; sm1.diff(sm2)</span>
+<span class="sd">        0.7414213562373095</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">-</span> <span class="n">other</span></div></div>
 </pre></div>
         </article>
       </div>
