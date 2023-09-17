@@ -185,11 +185,9 @@ class SequenceModel:
         :Example:
 
         >>> sm = SequenceModel()
-        >>> sm.background_prior = 0.8
+        >>> sm.site_prior = 0.2
         >>> round(sm.background_prior,1)
         0.8
-        >>> round(sm.site_prior,1)
-        0.2
         """
         try:
             return 1 - self.site_prior
@@ -210,9 +208,10 @@ class SequenceModel:
             Each sublist will be length 4 and represents the probability of
             observing each base (A, C, G, T) at the given position in a bound
             site. Defaults to None if not provided in constructor. The length
-            of site_base_probs is the length of the site sequence and is provided
-            by len(SequenceModel). If not explicitly passed in the constructor,
-            site_base_probs defaults to `None`.
+            of site_base_probs is the length of the site sequence and is
+            provided by SequenceModel.motif_length or len(SequenceModel).
+            If not explicitly passed in the constructor, site_base_probs
+            defaults to `None`.
 
         :return: A list of lists containing probabilities for each base in
             bound sites.
@@ -225,7 +224,8 @@ class SequenceModel:
         :Example:
 
         >>> sm = SequenceModel()
-        >>> sm.site_base_probs = [[0.25, 0.25, 0.25, 0.25], [0.1, 0.2, 0.3, 0.4]]
+        >>> sm.site_base_probs = [[0.25, 0.25, 0.25, 0.25],
+        ...                       [0.1, 0.2, 0.3, 0.4]]
         >>> sm.site_base_probs[1]
         [0.1, 0.2, 0.3, 0.4]
         """
@@ -241,7 +241,8 @@ class SequenceModel:
             raise TypeError('The value must be a list of lists.')
         for site_prob in site_base_probs:
             if not isinstance(site_prob, (list, np.ndarray)):
-                raise TypeError('Each element in `site_base_probs` must be a list')
+                raise TypeError(
+                    'Each element in `site_base_probs` must be a list')
             if not len(site_prob) == 4:
                 raise ValueError('Each element in `site_base_probs` must '
                                  'be length 4.')
@@ -286,16 +287,16 @@ class SequenceModel:
     @property
     def motif_length(self) -> int:
         """
-        The motif_length property will return the length of the site_base_probs,
-        which is the length of the motif represented by the SequenceModel.
-        If site_base_probs is not set, the motif_length will return None.
-        If you use motif_length as a setter, it will generate a random
-        site_base_probs with the specified motif_length. If you want to generate
-        random site_base_probs with a specified motif_length and seed, you can
-        use the motif_length setter with a seed parameter.
-        If site_base_probs is already set and you set motif_length, the current
-        site_base_probs will be overwritten with a random site_base_probs list of
-        the specified length.
+        The motif_length property will return the length of the
+        site_base_probs, which is the length of the motif represented by the
+        SequenceModel. If site_base_probs is not set, the motif_length will
+        return None. If you use motif_length as a setter, it will generate a
+        random site_base_probs with the specified motif_length. If you want to
+        generate random site_base_probs with a specified motif_length and seed,
+        you can use the motif_length setter with a seed parameter. If
+        site_base_probs is already set and you set motif_length, the current
+        site_base_probs will be overwritten with a random site_base_probs list
+        of the specified length.
 
         :return: Length of the motif represented by the SequenceModel instance.
         :rtype: int
@@ -330,10 +331,8 @@ class SequenceModel:
         random_matrix = np.random.uniform(0.5, 1.0, (motif_length, 4))
 
         # Normalize each row so that the sum of each row equals 1
-        normalized_matrix = (random_matrix /
-                             np.sum(random_matrix, axis=1)[:, np.newaxis])
-
-        return normalized_matrix
+        self.site_base_probs = (random_matrix /
+                                np.sum(random_matrix, axis=1)[:, np.newaxis])
 
     def __repr__(self) -> str:
         """
@@ -351,7 +350,9 @@ class SequenceModel:
         >>> site_prior = 0.2
         >>> site_base_probs = [[0.25, 0.25, 0.25, 0.25], [0.1, 0.2, 0.3, 0.4]]
         >>> background_base_probs = [1/4]*4
-        >>> sm = SequenceModel(site_prior, site_base_probs, background_base_probs)
+        >>> sm = SequenceModel(site_prior,
+        ...                    site_base_probs,
+        ...                    background_base_probs)
         >>> repr(sm)
         'SequenceModel(site_prior=0.2, site_base_probs=[[0.25, 0.25, 0.25, 0.25], [0.1, 0.2, 0.3, 0.4]], background_base_probs=[0.25, 0.25, 0.25, 0.25])'
         """
@@ -376,7 +377,9 @@ class SequenceModel:
         >>> site_prior = 0.2
         >>> site_base_probs = [[0.25, 0.25, 0.25, 0.25], [0.1, 0.2, 0.3, 0.4]]
         >>> background_base_probs = [1/4]*4
-        >>> sm = SequenceModel(site_prior, site_base_probs, background_base_probs)
+        >>> sm = SequenceModel(site_prior,
+        ...                    site_base_probs,
+        ...                    background_base_probs)
         >>> str(sm)  # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
         'SequenceModel with site_prior: 0.2, background_prior: 0.8, site_base_probs: [[0.25, 0.25, 0.25, 0.25], [0.1, 0.2, 0.3, 0.4]], background_base_probs: [0.25, 0.25, 0.25, 0.25]'
         """
@@ -394,7 +397,8 @@ class SequenceModel:
         :Example:
 
         >>> sm = SequenceModel()
-        >>> sm.site_base_probs = [[0.25, 0.25, 0.25, 0.25], [0.1, 0.2, 0.3, 0.4]]
+        >>> sm.site_base_probs = [[0.25, 0.25, 0.25, 0.25],
+        ...                       [0.1, 0.2, 0.3, 0.4]]
         >>> len(sm)
         2
         """
@@ -417,8 +421,8 @@ class SequenceModel:
         :type other: SequenceModel
 
         :raises TypeError: If the other object is not a SequenceModel.
-        :raises ValueError: If the two SequenceModels do not have the same length
-            site_base_probs or if any of the attributes are not set.
+        :raises ValueError: If the two SequenceModels do not have the same
+            length site_base_probs or if any of the attributes are not set.
 
         :return: The absolute difference between the two SequenceModels.
         :rtype: float
@@ -454,7 +458,8 @@ class SequenceModel:
 
         if len(self.site_base_probs) != len(other.site_base_probs):
             raise ValueError(
-                "Both SequenceModels must have the same length site_base_probs")
+                "Both SequenceModels must have the same length "
+                "site_base_probs")
 
         prior_diff = euclidean_distance_lists(
             [self.site_prior, self.background_prior],
@@ -532,7 +537,8 @@ class SequenceModel:
         new_obj._site_prior = copy.deepcopy(self._site_prior)
         new_obj._background_prior = copy.deepcopy(self._background_prior)
         new_obj._site_base_probs = copy.deepcopy(self._site_base_probs, memo)
-        new_obj._background_base_probs = copy.deepcopy(self._background_base_probs, memo)
+        new_obj._background_base_probs = \
+            copy.deepcopy(self._background_base_probs, memo)
 
         return new_obj
 

@@ -400,11 +400,9 @@ instance of SequenceModel, also.</p>
 <dd class="field-odd"><p></p></dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sm</span> <span class="o">=</span> <span class="n">SequenceModel</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sm</span><span class="o">.</span><span class="n">background_prior</span> <span class="o">=</span> <span class="mf">0.8</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sm</span><span class="o">.</span><span class="n">site_prior</span> <span class="o">=</span> <span class="mf">0.2</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">background_prior</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="go">0.8</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">site_prior</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<span class="go">0.2</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -416,9 +414,10 @@ instance of SequenceModel, also.</p>
 <dt>List of lists containing probabilities for each base in bound sites.</dt><dd><p>Each sublist will be length 4 and represents the probability of
 observing each base (A, C, G, T) at the given position in a bound
 site. Defaults to None if not provided in constructor. The length
-of site_base_probs is the length of the site sequence and is provided
-by len(SequenceModel). If not explicitly passed in the constructor,
-site_base_probs defaults to <cite>None</cite>.</p>
+of site_base_probs is the length of the site sequence and is
+provided by SequenceModel.motif_length or len(SequenceModel).
+If not explicitly passed in the constructor, site_base_probs
+defaults to <cite>None</cite>.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -439,7 +438,8 @@ bound sites.</p>
 <dd class="field-even"><p></p></dd>
 </dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sm</span> <span class="o">=</span> <span class="n">SequenceModel</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sm</span><span class="o">.</span><span class="n">site_base_probs</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sm</span><span class="o">.</span><span class="n">site_base_probs</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">]]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sm</span><span class="o">.</span><span class="n">site_base_probs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 <span class="go">[0.1, 0.2, 0.3, 0.4]</span>
 </pre></div>
@@ -478,16 +478,16 @@ is independent of the position in the genome. Defaults to None if
 <dl class="py property">
 <dt class="sig sig-object py" id="cse587Autils.SequenceObjects.SequenceModel.SequenceModel.motif_length">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">motif_length</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#cse587Autils.SequenceObjects.SequenceModel.SequenceModel.motif_length" title="Link to this definition">#</a></dt>
-<dd><p>The motif_length property will return the length of the site_base_probs,
-which is the length of the motif represented by the SequenceModel.
-If site_base_probs is not set, the motif_length will return None.
-If you use motif_length as a setter, it will generate a random
-site_base_probs with the specified motif_length. If you want to generate
-random site_base_probs with a specified motif_length and seed, you can
-use the motif_length setter with a seed parameter.
-If site_base_probs is already set and you set motif_length, the current
-site_base_probs will be overwritten with a random site_base_probs list of
-the specified length.</p>
+<dd><p>The motif_length property will return the length of the
+site_base_probs, which is the length of the motif represented by the
+SequenceModel. If site_base_probs is not set, the motif_length will
+return None. If you use motif_length as a setter, it will generate a
+random site_base_probs with the specified motif_length. If you want to
+generate random site_base_probs with a specified motif_length and seed,
+you can use the motif_length setter with a seed parameter. If
+site_base_probs is already set and you set motif_length, the current
+site_base_probs will be overwritten with a random site_base_probs list
+of the specified length.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Length of the motif represented by the SequenceModel instance.</p>
