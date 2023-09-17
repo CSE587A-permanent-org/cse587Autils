@@ -1,4 +1,17 @@
+# 3.0.2
+
+This correcs some accidental updates of the sring 3.0.0 to 3.0.1 in poetry.lock
+and some merge issues between local and main. Nothing of substance has changed,
+just fixing bugs caused by the merge.
+
 # 3.0.1
+
+Key points
+
+- Attempt at removing SiteModel.py, but had issue with accidental updates
+of 3.0.0 to 3.0.1 in poetry.lock. Corrected in 3.0.2
+
+# 3.0.0
 
 Key Points
 
