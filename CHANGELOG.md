@@ -1,4 +1,4 @@
-# 3.0.0
+# 3.0.1
 
 Key Points
 
@@ -33,7 +33,7 @@ Key Points
   constructor argument evaluated to False an did not set the prior values
   correctly
 
-# 3.0.0
+# 3.0.1
 
 Key Points
 
