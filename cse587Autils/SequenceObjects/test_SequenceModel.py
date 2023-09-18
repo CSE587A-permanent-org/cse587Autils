@@ -1,6 +1,7 @@
 import logging
 from copy import copy
 import pytest
+import numpy as np
 from cse587Autils.SequenceObjects.SequenceModel import SequenceModel
 
 
@@ -19,6 +20,9 @@ def test_valid_construction():
 
     sm2 = SequenceModel(0, site_base_probs, background_base_probs)
     assert sm2.background_prior == 1
+
+    sm2.background_base_probs = np.array([0.1, 0.2, 0.3, 0.4])
+    assert sum(sm2.background_base_probs) == 1
 
 
 def test_logging(caplog):
