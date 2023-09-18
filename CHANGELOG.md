@@ -1,3 +1,9 @@
+# 3.0.3
+
+Key points
+
+- Adding np.ndarray as an acceptable datatype for `background_base_probs`
+
 # 3.0.2
 
 This correcs some accidental updates of the sring 3.0.0 to 3.0.1 in poetry.lock
