@@ -276,8 +276,8 @@ class SequenceModel:
             return None
 
     @background_base_probs.setter
-    def background_base_probs(self, background_base_probs: List[float]):
-        if not isinstance(background_base_probs, list):
+    def background_base_probs(self, background_base_probs: (List[float], np.ndarray)):  # noqa
+        if not isinstance(background_base_probs, (list, np.ndarray)):
             raise TypeError('The value must be a list.')
         if not len(background_base_probs) == 4:
             raise ValueError('The value must be length 4.')
