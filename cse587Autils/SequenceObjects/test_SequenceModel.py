@@ -13,7 +13,7 @@ def test_valid_construction():
     sm = SequenceModel(site_prior, site_base_probs, background_base_probs)
 
     assert sm.background_prior == 0.8
-    assert len(sm) == 2
+    assert sm.motif_length() == 2
 
     sm1 = SequenceModel(1, site_base_probs, background_base_probs)
     assert sm1.background_prior == 0

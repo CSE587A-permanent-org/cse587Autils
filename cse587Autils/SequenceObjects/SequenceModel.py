@@ -284,56 +284,6 @@ class SequenceModel:
         check_probability(background_base_probs, tolerance=self.tolerance)
         self._background_base_probs = background_base_probs
 
-    @property
-    def motif_length(self) -> int:
-        """
-        The motif_length property will return the length of the
-        site_base_probs, which is the length of the motif represented by the
-        SequenceModel. If site_base_probs is not set, the motif_length will
-        return None. If you use motif_length as a setter, it will generate a
-        random site_base_probs with the specified motif_length. If you want to
-        generate random site_base_probs with a specified motif_length and seed,
-        you can use the motif_length setter with a seed parameter. If
-        site_base_probs is already set and you set motif_length, the current
-        site_base_probs will be overwritten with a random site_base_probs list
-        of the specified length.
-
-        :return: Length of the motif represented by the SequenceModel instance.
-        :rtype: int
-
-        :Example:
-
-        >>> sm = SequenceModel()
-        >>> sm.site_base_probs = [[1/4]*4, [1/4]*4, [1/4]*4]
-        >>> sm.motif_length == 3
-        True
-        >>> sm.motif_length = 4
-        >>> sm.motif_length == 4
-        True
-        """
-        return len(self)
-
-    @motif_length.setter
-    def motif_length(self, motif_length: int, seed: int = None):
-        if not isinstance(motif_length, int):
-            raise ValueError("motif_length must be an integer.")
-        if motif_length < 1:
-            raise ValueError("motif_length must be greater than 0.")
-        if not isinstance(seed, int) and seed is not None:
-            raise ValueError("seed must be an integer.")
-        if self.site_base_probs is not None:
-            logger.warning("Overwriting current site_base_probs.")
-        if seed:
-            np.random.seed(seed)
-        logger.info("Generating random site_base_probs with "
-                    "motif_length: %s", str(motif_length))
-        # Generate a 2D array with random real numbers between 0.5 and 1.0
-        random_matrix = np.random.uniform(0.5, 1.0, (motif_length, 4))
-
-        # Normalize each row so that the sum of each row equals 1
-        self.site_base_probs = (random_matrix /
-                                np.sum(random_matrix, axis=1)[:, np.newaxis])
-
     def __repr__(self) -> str:
         """
         Generate an unambiguous string representation of the SequenceModel
@@ -571,3 +521,7 @@ class SequenceModel:
         0.7414213562373095
         """
         return self - other
+
+    def motif_length(self):
+        """return the length of the motif represented by the SequenceModel."""
+        return len(self.site_base_probs)

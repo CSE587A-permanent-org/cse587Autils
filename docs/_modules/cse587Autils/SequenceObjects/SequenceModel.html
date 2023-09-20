@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>cse587Autils.SequenceObjects.SequenceModel - cse587Autils 3.0.3 documentation</title>
+        <title>cse587Autils.SequenceObjects.SequenceModel - cse587Autils 3.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">cse587Autils 3.0.3 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">cse587Autils 3.1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">cse587Autils 3.0.3 documentation</span>
+  <span class="sidebar-brand-text">cse587Autils 3.1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -511,56 +511,6 @@
         <span class="n">check_probability</span><span class="p">(</span><span class="n">background_base_probs</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tolerance</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_background_base_probs</span> <span class="o">=</span> <span class="n">background_base_probs</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">motif_length</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        The motif_length property will return the length of the</span>
-<span class="sd">        site_base_probs, which is the length of the motif represented by the</span>
-<span class="sd">        SequenceModel. If site_base_probs is not set, the motif_length will</span>
-<span class="sd">        return None. If you use motif_length as a setter, it will generate a</span>
-<span class="sd">        random site_base_probs with the specified motif_length. If you want to</span>
-<span class="sd">        generate random site_base_probs with a specified motif_length and seed,</span>
-<span class="sd">        you can use the motif_length setter with a seed parameter. If</span>
-<span class="sd">        site_base_probs is already set and you set motif_length, the current</span>
-<span class="sd">        site_base_probs will be overwritten with a random site_base_probs list</span>
-<span class="sd">        of the specified length.</span>
-
-<span class="sd">        :return: Length of the motif represented by the SequenceModel instance.</span>
-<span class="sd">        :rtype: int</span>
-
-<span class="sd">        :Example:</span>
-
-<span class="sd">        &gt;&gt;&gt; sm = SequenceModel()</span>
-<span class="sd">        &gt;&gt;&gt; sm.site_base_probs = [[1/4]*4, [1/4]*4, [1/4]*4]</span>
-<span class="sd">        &gt;&gt;&gt; sm.motif_length == 3</span>
-<span class="sd">        True</span>
-<span class="sd">        &gt;&gt;&gt; sm.motif_length = 4</span>
-<span class="sd">        &gt;&gt;&gt; sm.motif_length == 4</span>
-<span class="sd">        True</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-
-    <span class="nd">@motif_length</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">motif_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">motif_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">motif_length</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;motif_length must be an integer.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">motif_length</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;motif_length must be greater than 0.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;seed must be an integer.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_base_probs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Overwriting current site_base_probs.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">seed</span><span class="p">:</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Generating random site_base_probs with &quot;</span>
-                    <span class="s2">&quot;motif_length: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">motif_length</span><span class="p">))</span>
-        <span class="c1"># Generate a 2D array with random real numbers between 0.5 and 1.0</span>
-        <span class="n">random_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="p">(</span><span class="n">motif_length</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-
-        <span class="c1"># Normalize each row so that the sum of each row equals 1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">site_base_probs</span> <span class="o">=</span> <span class="p">(</span><span class="n">random_matrix</span> <span class="o">/</span>
-                                <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">random_matrix</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span>
-
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate an unambiguous string representation of the SequenceModel</span>
@@ -800,6 +750,13 @@
 <span class="sd">        0.7414213562373095</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span> <span class="o">-</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="SequenceModel.motif_length">
+<a class="viewcode-back" href="../../../SequenceObjects/API/SequenceModel.html#cse587Autils.SequenceObjects.SequenceModel.SequenceModel.motif_length">[docs]</a>
+    <span class="k">def</span> <span class="nf">motif_length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;return the length of the motif represented by the SequenceModel.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">site_base_probs</span><span class="p">)</span></div>
 </div>
 
 </pre></div>
@@ -834,7 +791,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=9b3fc59f"></script>
+</div><script src="../../../_static/documentation_options.js?v=dd1205ac"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
