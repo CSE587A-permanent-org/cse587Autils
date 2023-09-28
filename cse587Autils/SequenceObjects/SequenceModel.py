@@ -542,6 +542,7 @@ class SequenceModel:
             and not an int.
         :raises ValueError: If motif_length is less than 1 or if seed is
             passed and less than 0.
+<<<<<<< HEAD
 
         :Example:
         
@@ -549,6 +550,8 @@ class SequenceModel:
         >>> sm.set_site_base_probs(2)
         >>> sm.motif_length()
         2
+=======
+>>>>>>> 3300994804d25735b6d9c4fee0a0829792628a89
         """
         if self.site_base_probs is not None:
             logger.warning('Overwriting site_base_probs with random values')
