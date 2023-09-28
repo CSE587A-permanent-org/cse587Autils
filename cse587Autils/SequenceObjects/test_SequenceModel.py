@@ -91,3 +91,25 @@ def test_copy_method():
     # Test if modifications to the copy don't affect the original
     copied.site_prior = 0.3
     assert original.site_prior != copied.site_prior
+
+
+def test_initialize_site_base_probs(caplog):
+    caplog.set_level(logging.WARNING)  # Ensure warnings are captured
+    sm = SequenceModel()
+
+    # First initialization
+    sm.set_site_base_probs(2)
+    assert len(sm) == 2  # Ensure the length matches
+
+    for col in sm.site_base_probs:  # Check that the sum of each column is 1
+        assert sum(col) == pytest.approx(1, abs=1e-5)
+
+    # Second initialization, should trigger log warning
+    with caplog.at_level(logging.WARNING):
+        sm.set_site_base_probs(4)
+
+    assert 'Overwriting site_base_probs with random values' in caplog.text
+    assert len(sm) == 4  # Ensure the length matches
+
+    for col in sm.site_base_probs:  # Check that the sum of each column is 1
+        assert sum(col) == pytest.approx(1, abs=1e-5)

@@ -757,6 +757,47 @@
     <span class="k">def</span> <span class="nf">motif_length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;return the length of the motif represented by the SequenceModel.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">site_base_probs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SequenceModel.set_site_base_probs">
+<a class="viewcode-back" href="../../../SequenceObjects/API/SequenceModel.html#cse587Autils.SequenceObjects.SequenceModel.SequenceModel.set_site_base_probs">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_site_base_probs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                            <span class="n">motif_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                            <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the site_base_probs to a random motif.</span>
+
+<span class="sd">        :param motif_length: Length of the motif to generate.</span>
+<span class="sd">        :type motif_length: int</span>
+<span class="sd">        :param seed: Random seed. If none, not explicitly set. Defaults to None</span>
+<span class="sd">        :type seed: int, optional</span>
+
+<span class="sd">        :return: None</span>
+
+<span class="sd">        :raises TypeError: If motif_length is not an int of if seed is passed</span>
+<span class="sd">            and not an int.</span>
+<span class="sd">        :raises ValueError: If motif_length is less than 1 or if seed is</span>
+<span class="sd">            passed and less than 0.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">site_base_probs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Overwriting site_base_probs with random values&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">motif_length</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;The motif_length must be an int.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">motif_length</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The motif_length must be greater than 0.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;The seed must be an int.&#39;</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+        <span class="n">site_base_probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="p">(</span><span class="n">motif_length</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+        <span class="c1"># Sum along axis=1 to get the sum of each row</span>
+        <span class="n">row_sums</span> <span class="o">=</span> <span class="n">site_base_probs</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Normalize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">site_base_probs</span> <span class="o">=</span> <span class="n">site_base_probs</span> <span class="o">/</span> <span class="n">row_sums</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span></div>
 </div>
 
 </pre></div>
