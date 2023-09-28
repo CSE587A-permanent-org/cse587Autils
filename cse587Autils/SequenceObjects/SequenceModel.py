@@ -29,7 +29,7 @@ class SequenceModel:
     The motif_length property is the length of the site_base_probs and an
     also be accessed by len(sm)
 
-    >>> sm.motif_length == len(sm) == 2
+    >>> sm.motif_length() == len(sm) == 2
     True
 
     A deepcopy method is implemented
@@ -68,9 +68,9 @@ class SequenceModel:
         self._tolerance = tolerance
         if site_prior is not None:
             self.site_prior = site_prior
-        if site_base_probs:
+        if site_base_probs is not None:
             self.site_base_probs = site_base_probs
-        if background_base_probs:
+        if background_base_probs is not None:
             self.background_base_probs = background_base_probs
 
     @property
@@ -232,7 +232,6 @@ class SequenceModel:
         try:
             return self._site_base_probs
         except AttributeError:
-            logger.warning('site_base_probs not set')
             return None
 
     @site_base_probs.setter
@@ -543,6 +542,13 @@ class SequenceModel:
             and not an int.
         :raises ValueError: If motif_length is less than 1 or if seed is
             passed and less than 0.
+
+        :Example:
+        
+        >>> sm = SequenceModel()
+        >>> sm.set_site_base_probs(2)
+        >>> sm.motif_length()
+        2
         """
         if self.site_base_probs is not None:
             logger.warning('Overwriting site_base_probs with random values')
