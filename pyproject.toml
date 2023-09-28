@@ -1,10 +1,6 @@
 [tool.poetry]
 name = "cse587Autils"
-<<<<<<< HEAD
 version = "3.2.1"
-=======
-version = "3.2.0"
->>>>>>> 3300994804d25735b6d9c4fee0a0829792628a89
 description = "A set of classes and functions to be used in CSE 587A"
 authors = ["chase mateusiak <chase.mateusiak@gmail.com>"]
 license = "GPL-3.0-or-later"

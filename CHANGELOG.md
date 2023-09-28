@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 3.2.1
 
 Key Points
@@ -6,17 +5,11 @@ Key Points
 - Adjusting the `SequenceModel.__init__()` to explicitly check for
 `None` to avoid isues with checking numpy arrays for truthiness
 
-=======
->>>>>>> 3300994804d25735b6d9c4fee0a0829792628a89
 # 3.2.0
 
 Key points
 
-<<<<<<< HEAD
 - Adding `SequenceModel.set_site_base_prob()` method`
-=======
-- Adding `SequenceModel.__set_site_base_prob()` method`
->>>>>>> 3300994804d25735b6d9c4fee0a0829792628a89
 
 # 3.1.0
 
