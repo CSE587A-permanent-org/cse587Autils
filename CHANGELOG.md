@@ -1,3 +1,15 @@
+# 3.2.0
+
+Key points
+
+- Adding `SequenceModel.__set_site_base_prob()` method`
+
+# 3.1.0
+
+Key points
+
+- removing motif_length property, adding motif_length function
+
 # 3.0.3
 
 Key points
