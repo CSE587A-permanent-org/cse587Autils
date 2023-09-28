@@ -8,71 +8,94 @@ from cse587Autils.utils.check_probability import check_probability
 logger = logging.getLogger(__name__)
 
 
+def safe_exponentiate(base: [int, float],
+                      exponent: [int, float]) -> [int, float]:
+    """Safely exponentiates the base to the given exponent
+
+    :param base: The base to exponentiate
+    :type base: int, float]
+    :param exponent: the power to raise the base to
+    :type exponent: int, float]
+    :return: The result of raising the given base to the given exponent.
+        If the exponent is zero, the result is 1.
+    :rtype: [int, float]
+    """
+    logger.debug('Exponentiating %s to the power of %s', base, exponent)
+    if not isinstance(base, (int, float, np.int_, np.float_)):
+        raise ValueError('The base must be an int or float')
+    if not isinstance(exponent, (int, float, np.int_, np.float_)):
+        raise ValueError('The exponent must be an int or float')
+    if base == 0 and exponent != 0:
+        raise ValueError('If the count is 0, the probability should not 0. A face '
+                         'with no probability of being rolled should not '
+                         'be observed. If this occurs as an initial guess, '
+                         'you should revise your initial guess.')
+
+    return 1 if exponent == 0 else base ** exponent
+
+
 class Die:
     """
     A class used to represent a dice with n faces, each with probability p.
 
-    :param face_weights: The probabilities of the faces
-    :type face_weights: list of float
+    :param face_probs: The probabilities of the faces
+    :type face_probs: list of float
 
-    Example
-    -------
-    To create a die with 6 faces where the probability of rolling 
-    each face is equal, you would do:
+    :Examples:
 
-    >>> face_weights = [1/6]*6
-    >>> my_die = Die(face_weights)
+    >>> face_probs = [1/6]*6
+    >>> my_die = Die(face_probs)
     >>> len(my_die)
     6
 
-    # access the weight of a face. Remember that python is zero-indexed!
+    >>> # access the probability of a face. Remember that python is zero-indexed!
     >>> my_die[0]
     0.16666666666666666
 
-    # accessing a weight that is negative or outside of the range of the die
-    # will raise an IndexError
+    >>> # accessing a probability that is negative or outside of the range of the
+    >>> # die will raise an IndexError
     >>> my_die[7]  # doctest: +IGNORE_EXCEPTION_DETAIL
     Traceback (most recent call last):
     ...
     IndexError
 
-    # rolling the die will return a random face
-    # remember python is 0 indexed AND the upper bound is exclusive, meaning 
-    # in order to get the numbers 0, 1, 2, 3, 4, 5, you need to pass in the
-    # range 0, 6
+    >>> # rolling the die will return a random face
+    >>> # remember python is 0 indexed AND the upper bound is exclusive, meaning
+    >>> # in order to get the numbers 0, 1, 2, 3, 4, 5, you need to pass in the
+    >>> # range 0, 6
     >>> my_die.roll() in set(range(0, 6))
     True
     """
 
-    def __init__(self, face_weights: List[float] = None):
+    def __init__(self, face_probs: List[float] = None):
         """See class docstring for details"""
-        self._face_weights = []
+        self._face_probs = []
         logger.debug('constructing Dice object with '
-                     'face_weights: %s', face_weights)
-        if face_weights is not None:
-            self.face_weights = face_weights
+                     'face_probs: %s', face_probs)
+        if face_probs is not None:
+            self.face_probs = face_probs
 
     @property
-    def face_weights(self) -> List[float]:
+    def face_probs(self) -> List[float]:
         """
-        The getter of the `face_weights` attribute.
+        The getter of the `face_probs` attribute.
 
-        :return: The face weights
+        :return: The face probabilities (face_probs)
         :rtype: list of float
         """
-        return self._face_weights
+        return self._face_probs
 
-    @face_weights.setter
-    def face_weights(self, value: List[float]):
+    @face_probs.setter
+    def face_probs(self, value: List[float]):
         """
-        The setter of the `face_weights` attribute.
+        The setter of the `face_probs` attribute.
 
-        :param value: The new face weights
+        :param value: The new face probabilities (face_probs)
         :type value: list of float
         """
         valid_value = check_probability(value)
-        logger.info('setting face_weights to %s', valid_value)
-        self._face_weights = valid_value
+        logger.info('setting face_probs to %s', valid_value)
+        self._face_probs = valid_value
 
     def __repr__(self) -> str:
         """
@@ -81,31 +104,30 @@ class Die:
         :return: The representation of the `Die` object
         :rtype: str
 
-        Die Print Examples
-        ------------------
-        >>> face_weights = [1/6]*6
-        >>> my_die = Die(face_weights)
+        :Exmaples:
+
+        >>> face_probs = [1/6]*6
+        >>> my_die = Die(face_probs)
         >>> my_die
-        Die([0.16666666666666666, 0.16666666666666666, 0.16666666666666666,
-            0.16666666666666666, 0.16666666666666666, 0.16666666666666666])
+        Die([0.1667, 0.1667, 0.1667, 0.1667, 0.1667, 0.1667])
         """
-        return f'Die({self.face_weights})'
+        return f'Die({[round(x,4) for x in self.face_probs]})'
 
     def __len__(self) -> int:
         """
-        The getter of the length of the `face_weights` attribute.
+        The getter of the length of the `face_probs` attribute.
 
-        :return: The length of the face weights
+        :return: The length of the face probabilities (face_probs)
         :rtype: int
 
-        Die Length Examples
-        -------------------
-        >>> face_weights = [1/6]*6
-        >>> my_die = Die(face_weights)
+        :Examples:
+
+        >>> face_probs = [1/6]*6
+        >>> my_die = Die(face_probs)
         >>> len(my_die)
         6
         """
-        return len(self._face_weights)
+        return len(self._face_probs)
 
     def __getitem__(self, index: int) -> float:
         """
@@ -118,38 +140,40 @@ class Die:
         :return: The probability of the face at the given index
         :rtype: float
 
-        Die Item Getter Examples
-        ------------------------
-        >>> face_weights = [1/6]*6
-        >>> my_die = Die(face_weights)
+        :Examples:
+
+        >>> face_probs = [1/6]*6
+        >>> my_die = Die(face_probs)
         >>> my_die[0]
         0.16666666666666666
         """
         if not isinstance(index, int):
             raise TypeError("The index must be an integer.")
-        if index < 0 or index >= len(self.face_weights):
+        if index < 0 or index >= len(self.face_probs):
             raise IndexError("The index must be between 0 and "
-                             f"{len(self.face_weights) - 1}.")
-        return self.face_weights[index]
+                             f"{len(self.face_probs) - 1}.")
+        return self.face_probs[index]
 
     def __sub__(self, other: 'Die') -> float:
         """
-        Subtract the face weights of one Die from another Die. Sum the result. 
-        This provides a measure of distance between two Die.
+        Subtract the face probabilities (face_probs) of one Die from another
+            Die. Sum the result. This provides a measure of distance between
+            two Die.
 
         :param other: The other Die
         :type other: Die
-        :return: The sum of the differences between the face weights of two Die
+        :return: The sum of the differences between the face probabilities
+            (face_probs) of two Die
         :rtype: float
 
         :raise TypeError: If the other Die is not a Die
         :raise ValueError: If the other Die has a different number of faces
 
-        Die Difference Operator Examples
-        --------------------------------
-        >>> face_weights = [1/6]*6
-        >>> my_die = Die(face_weights)
-        >>> other_die = Die(face_weights)
+        :Examples:
+
+        >>> face_probs = [1/6]*6
+        >>> my_die = Die(face_probs)
+        >>> other_die = Die(face_probs)
         >>> my_die - other_die
         0.0
         """
@@ -170,65 +194,22 @@ class Die:
         :return: The result of rolling the die
         :rtype: int
 
-        Die Roll Examples
-        -----------------
+        :Examples:
+
         >>> import numpy as np
         >>> np.random.seed(42)
-        >>> face_weights = [1/6]*6
-        >>> my_die = Die(face_weights)
+        >>> face_probs = [1/6]*6
+        >>> my_die = Die(face_probs)
         >>> my_die.roll() in set(range(0, 6))
         True
         """
         if seed:
             np.random.seed(seed)
-        return np.random.choice(range(len(self)), p=self.face_weights)
-
-    def expectation(self,
-                    observed_data: NDArray[np.int_]) -> NDArray[np.float_]:
-        """Calculate the probability of the observed data given the Die 
-            face weights.
-
-        :param observed_data: A list of observed face counts where the index
-            of each element corresponds to the face, and the count is the
-            number of times that face was observed. The sum of the counts is
-            the number of times the die was rolled.
-        :type observed_data: NDArray[:py:class:`numpy.int_`]
-
-        :return: The probability of the observed data given the Die face 
-            weights.
-        :rtype: NDArray[:py:class:`numpy.float_`]
-
-        :raises TypeError: If the face counts is not a 
-            numpy array or a base python list.
-        :raises ValueError: If the face counts is an empty list.
-
-        Die Expectation Example
-        -----------------------
-        >>> from numpy import array
-        >>> face_counts = array([1, 0, 0, 0, 0])
-        >>> face_probs = [1/6] * len(face_counts)
-        >>> my_die = Die(face_probs)
-        >>> [round(x, 2) for x in my_die.expectation(face_counts)]
-        [0.17, 1.0, 1.0, 1.0, 1.0]
-        """
-        if not isinstance(observed_data, (list, np.ndarray)):
-            raise TypeError('observed_data must be a list or numpy array')
-        if len(observed_data) == 0:
-            raise ValueError('observed_data must not be empty')
-        if isinstance(observed_data, list):
-            observed_data = np.array(observed_data)
-        if len(observed_data) < len(self.face_weights):
-            logger.warning('observed_data has fewer elements than '
-                           'face_weights. Appending zeros to observed_data.')
-            observed_data = np.append(observed_data,
-                                      np.zeros(len(self.face_weights) -
-                                               len(observed_data)))
-        result = np.power(self.face_weights, observed_data)
-        return result
+        return np.random.choice(range(len(self)), p=self.face_probs)
 
     def likelihood(self, observed_data: NDArray[np.int_]) -> List[float]:
         """Calculate the likelihood of the observed data given the Die 
-            face weights.
+            face probabilities (face_probs).
 
         :param observed_data: A list of observed face counts where the index
             of each element corresponds to the face, and the count is
@@ -244,13 +225,14 @@ class Die:
             numpy array or a base python list.
         :raises ValueError: If the face counts is an empty list.
 
-        Die Likelihood Example
-        ----------------------
-        >>> from numpy import array
-        >>> face_counts = array([1, 0, 0, 0, 0])
-        >>> face_probs = [1/6] * len(face_counts)
-        >>> round(likelihood_bin_counts(face_counts, face_probs),2)
-        0.17
+        :Examples:
+
+        >>> import numpy as np
+        >>> face_probs = [1/4]*4
+        >>> my_die = Die(face_probs)
+        >>> observed_data = np.array([1]*4)
+        >>> round(my_die.likelihood(observed_data), 4)
+        0.0039
         """
         # check input data types
         if not isinstance(observed_data, (np.ndarray, list)):
@@ -261,20 +243,18 @@ class Die:
             raise ValueError('The face counts must have at least one element.')
         # if the length of the face counts is greater than the face
         # probabilities, then only calculate the likelihood over the number
-        # of faces in the probablity list. Warn the user of this.
-        if len(observed_data) > len(self.face_weights):
+        # of faces in the probability list. Warn the user of this.
+        if len(observed_data) > len(self.face_probs):
             logger.warning('The number of observed faces is greater than the '
                            'number of probabilities. The extra observed faces '
                            'will be ignored.')
-            observed_data = observed_data[:len(self.face_weights)]
+            observed_data = observed_data[:len(self.face_probs)]
         # iterate over each face count and find the probability of rolling that
         # face that many times. Multiply the probabilities of observing each
         # face for the total likelihood.
-        # note that if a face weight is 0, then the likelihood of observing
-        # that face is 1 such that it does not affect the product
-        likelihood = prod([self.face_weights[i] ** count
-                           if self.face_weights[i] != 0 else 1
-                           for i, count in enumerate(observed_data)])
+        likelihood = prod(map(safe_exponentiate,
+                              self.face_probs,
+                              observed_data))
 
         return likelihood
 
