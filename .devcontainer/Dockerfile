@@ -22,7 +22,8 @@ RUN DEBIAN_FRONTEND=noninteractive \
         libxml2-dev \
         libxmlsec1-dev \
         libffi-dev \
-        liblzma-dev
+        liblzma-dev \
+        python3-dev        
 
 USER $USER
 ARG HOME="/home/$USER"
