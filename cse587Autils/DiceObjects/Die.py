@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 import logging
 from math import prod
 import numpy as np
@@ -8,8 +8,8 @@ from cse587Autils.utils.check_probability import check_probability
 logger = logging.getLogger(__name__)
 
 
-def safe_exponentiate(base: [int, float],
-                      exponent: [int, float]) -> [int, float]:
+def safe_exponentiate(base: Union[int, float],
+                      exponent: Union[int, float]) -> Union[int, float]:
     """Safely exponentiates the base to the given exponent
 
     :param base: The base to exponentiate

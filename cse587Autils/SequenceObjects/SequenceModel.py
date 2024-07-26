@@ -2,7 +2,7 @@
 import sys
 import logging
 import copy
-from typing import List
+from typing import List, Union
 import numpy as np
 from cse587Autils.utils.check_probability import check_probability
 from cse587Autils.utils.flatten_2d_list import flatten_2d_list
@@ -54,8 +54,8 @@ class SequenceModel:
 
     def __init__(self,
                  site_prior: float = None,
-                 site_base_probs: (List[List[float]], np.ndarray) = None,
-                 background_base_probs: (List[float], np.ndarray) = None,
+                 site_base_probs: Union[List[List[float]], np.ndarray] = None,
+                 background_base_probs: Union[List[float], np.ndarray] = None,
                  precision: int = sys.float_info.dig,
                  tolerance: float = 1e-10) -> None:
         """
@@ -202,7 +202,7 @@ class SequenceModel:
                              '`site_prior` and cannot be set directly')
 
     @property
-    def site_base_probs(self) -> (List[List[float]], np.ndarray):
+    def site_base_probs(self) -> Union[List[List[float]], np.ndarray]:
         """
         List of lists containing probabilities for each base in bound sites.
             Each sublist will be length 4 and represents the probability of
@@ -235,11 +235,11 @@ class SequenceModel:
             return None
 
     @site_base_probs.setter
-    def site_base_probs(self, site_base_probs: (List[List[float]], np.ndarray)):
-        if not isinstance(site_base_probs, (list, np.ndarray)):
+    def site_base_probs(self, site_base_probs: Union[List[List[float]], np.ndarray]):
+        if not isinstance(site_base_probs, Union[list, np.ndarray]):
             raise TypeError('The value must be a list of lists.')
         for site_prob in site_base_probs:
-            if not isinstance(site_prob, (list, np.ndarray)):
+            if not isinstance(site_prob, Union[(list, np.ndarray)]):
                 raise TypeError(
                     'Each element in `site_base_probs` must be a list')
             if not len(site_prob) == 4:
@@ -249,7 +249,7 @@ class SequenceModel:
         self._site_base_probs = site_base_probs
 
     @property
-    def background_base_probs(self) -> (List[float], np.ndarray):
+    def background_base_probs(self) -> Union[List[float], np.ndarray]:
         """
         List containing the background probabilities for each base. This is a
             list of length four, where each element represents the probability
@@ -275,7 +275,7 @@ class SequenceModel:
             return None
 
     @background_base_probs.setter
-    def background_base_probs(self, background_base_probs: (List[float], np.ndarray)):  # noqa
+    def background_base_probs(self, background_base_probs: Union[List[float], np.ndarray]):  # noqa
         if not isinstance(background_base_probs, (list, np.ndarray)):
             raise TypeError('The value must be a list.')
         if not len(background_base_probs) == 4:
