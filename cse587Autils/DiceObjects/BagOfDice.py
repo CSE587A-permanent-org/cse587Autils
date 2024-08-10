@@ -173,7 +173,7 @@ class BagOfDice:
             raise IndexError("The index is out of range.")
         return self.die_priors[index], self.dice[index]
 
-    def __sub__(self, other: 'BagOfDice') -> 'BagOfDice':
+    def __sub__(self, other: 'BagOfDice') -> float:
         """
         This calculates the distance, in terms of absolute value, between the 
         die priors of two bags of dice. The value returned is the sum of the 

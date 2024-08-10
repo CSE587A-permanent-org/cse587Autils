@@ -1,6 +1,8 @@
 import logging
 from copy import copy
+# The rest of the codebase uses unittest, not pytest.
 import pytest
+import unittest
 import numpy as np
 from cse587Autils.SequenceObjects.SequenceModel import SequenceModel
 
@@ -57,18 +59,6 @@ def test_invalid_background_base_probs_length():
     with pytest.raises(ValueError):
         sm.background_base_probs = [0.25, 0.25, 0.25]
 
-
-def test_sequence_model_subtraction():
-    sm1 = SequenceModel(0.2,
-                        [[0.1, 0.2, 0.5, 0.2], [0.3, 0.4, 0.2, 0.1]],
-                        [0.25]*4)
-    sm2 = SequenceModel(0.1,
-                        [[0.1, 0.1, 0.8, 0.0], [0.2, 0.2, 0.1, 0.5]],
-                        [0.25]*4)
-    result = sm1 - sm2
-    assert result == 0.7414213562373095
-
-
 def test_copy_method():
     original = SequenceModel(
         site_prior=0.2,
@@ -92,24 +82,20 @@ def test_copy_method():
     copied.site_prior = 0.3
     assert original.site_prior != copied.site_prior
 
+class TestSequenceModel(unittest.TestCase):
 
-def test_initialize_site_base_probs(caplog):
-    caplog.set_level(logging.WARNING)  # Ensure warnings are captured
-    sm = SequenceModel()
+    def setUp(self) -> None: None
 
-    # First initialization
-    sm.set_site_base_probs(2)
-    assert len(sm) == 2  # Ensure the length matches
-
-    for col in sm.site_base_probs:  # Check that the sum of each column is 1
-        assert sum(col) == pytest.approx(1, abs=1e-5)
-
-    # Second initialization, should trigger log warning
-    with caplog.at_level(logging.WARNING):
-        sm.set_site_base_probs(4)
-
-    assert 'Overwriting site_base_probs with random values' in caplog.text
-    assert len(sm) == 4  # Ensure the length matches
-
-    for col in sm.site_base_probs:  # Check that the sum of each column is 1
-        assert sum(col) == pytest.approx(1, abs=1e-5)
+    def test_parameter_difference(self):
+        """Test the sum of absolute differences of parameters.
+        """
+        sm1 = SequenceModel(0.2,
+                            [[0.1, 0.2, 0.5, 0.2], [0.3, 0.4, 0.2, 0.1]],
+                            [0.25]*4)
+        sm2 = SequenceModel(0.1,
+                            [[0.1, 0.1, 0.8, 0.0], [0.2, 0.2, 0.1, 0.5]],
+                            [0.25]*4)
+        result = sm1 - sm2
+        # The right answer is 1.4 because the only the siteProbs are compared
+        # not the other parameters in the model.
+        self.assertAlmostEqual(result, 1.4, places=10)

@@ -20,7 +20,8 @@
         "vscode": {
           "extensions":["ms-python.python", 
                         "njpwerner.autodocstring", 
-						"ms-toolsai.jupyter"],
+						"ms-toolsai.jupyter",
+						"ms-python.mypy-type-checker"],
 			"settings": {"python.pythonPath": "${workspaceFolder}/.venv/bin/python"}
             }
 		},

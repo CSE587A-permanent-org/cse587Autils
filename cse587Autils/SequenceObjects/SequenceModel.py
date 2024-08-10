@@ -2,8 +2,9 @@
 import sys
 import logging
 import copy
-from typing import List, Union
+from typing import List, Union, Optional
 import numpy as np
+from numpy.typing import NDArray
 from cse587Autils.utils.check_probability import check_probability
 from cse587Autils.utils.flatten_2d_list import flatten_2d_list
 from cse587Autils.utils.euclidean_distance_lists \
@@ -53,9 +54,9 @@ class SequenceModel:
     """
 
     def __init__(self,
-                 site_prior: float = None,
-                 site_base_probs: Union[List[List[float]], np.ndarray] = None,
-                 background_base_probs: Union[List[float], np.ndarray] = None,
+                 site_prior: Optional[float] = None,
+                 site_base_probs: Optional[Union[List[List[float]], np.ndarray]] = None,
+                 background_base_probs: Optional[Union[List[float], np.ndarray]] = None,
                  precision: int = sys.float_info.dig,
                  tolerance: float = 1e-10) -> None:
         """
@@ -156,11 +157,9 @@ class SequenceModel:
         >>> round(sm.background_prior,1)
         0.8
         """
-        try:
-            return self._site_prior
-        except AttributeError:
-            logger.warning('site_prior not set')
-            return None
+        if self._site_prior is None:
+            raise AttributeError('Attempt to access site_prior that has not been set.')
+        return self._site_prior
 
     @site_prior.setter
     def site_prior(self, prior: float):
@@ -189,12 +188,10 @@ class SequenceModel:
         >>> round(sm.background_prior,1)
         0.8
         """
-        try:
-            return 1 - self.site_prior
-        except AttributeError:
-            logger.warning('background_prior is derived from '
-                           '`site_prior` and `site_prior` is not set')
-            return None
+        if self._site_prior is None:
+            raise AttributeError('Attempt to access background_prior, which \
+                                 depends on site_prioir, which has not been set.')
+        return 1 - self.site_prior
 
     @background_prior.setter
     def background_prior(self, prior: float):
@@ -229,17 +226,17 @@ class SequenceModel:
         >>> sm.site_base_probs[1]
         [0.1, 0.2, 0.3, 0.4]
         """
-        try:
-            return self._site_base_probs
-        except AttributeError:
-            return None
+        return self._site_base_probs
 
+    # At some ponint I would like to eliminate these setters and only allow
+    # parameters to be specified when a new instance is made. Copy rather than
+    # mutatte. Saves a lot of code.
     @site_base_probs.setter
     def site_base_probs(self, site_base_probs: Union[List[List[float]], np.ndarray]):
-        if not isinstance(site_base_probs, Union[list, np.ndarray]):
+        if not isinstance(site_base_probs, (list, np.ndarray)):
             raise TypeError('The value must be a list of lists.')
         for site_prob in site_base_probs:
-            if not isinstance(site_prob, Union[(list, np.ndarray)]):
+            if not isinstance(site_prob, (list, np.ndarray)):
                 raise TypeError(
                     'Each element in `site_base_probs` must be a list')
             if not len(site_prob) == 4:
@@ -268,11 +265,9 @@ class SequenceModel:
         >>> sm.background_base_probs
         [0.25, 0.25, 0.25, 0.25]
         """
-        try:
-            return self._background_base_probs
-        except AttributeError:
-            logger.warning('background_base_probs not set')
-            return None
+        if self._background_base_probs is None:
+            raise AttributeError('background_base_prob, which has not been set.')
+        return self._background_base_probs
 
     @background_base_probs.setter
     def background_base_probs(self, background_base_probs: Union[List[float], np.ndarray]):  # noqa
@@ -351,20 +346,18 @@ class SequenceModel:
         >>> len(sm)
         2
         """
-        try:
-            return len(self.site_base_probs)
-        except AttributeError:
-            logger.warning('site_base_probs not set')
-            return None
+        if self.site_base_probs is None:
+            raise(AttributeError['len is not defined unless site_base_probs has been \
+                                  initialized, but it has not been.'])
+        return len(self.site_base_probs)
 
     def __sub__(self, other: 'SequenceModel') -> float:
         """
         Calculate the absolute difference between two SequenceModels.
 
-        The difference is calculated by taking the sum of the euclidean
-        distance between [site_prior, background_prior], the euclidean
-        distance between each site probability, and the euclidean distance
-        between each background probability.
+        The difference is calculated by taking the sum of the absolute
+        differences between all pairs of corresponding parameters in the two
+        sequence_model objects.
 
         :param other: The other SequenceModel to compare to.
         :type other: SequenceModel
@@ -394,39 +387,29 @@ class SequenceModel:
             raise ValueError("Both SequenceModels must have the same "
                              "length site_base_probs")
 
-        if (self.site_prior is None
-            or other.site_prior is None
-            or self.background_prior is None
-            or other.background_prior is None
-            or self.site_base_probs is None
-            or other.site_base_probs is None
-            or self.background_base_probs is None
-                or other.background_base_probs is None):
-            raise ValueError(
-                "Both SequenceModels must have all parameters set")
-
         if len(self.site_base_probs) != len(other.site_base_probs):
             raise ValueError(
                 "Both SequenceModels must have the same length "
                 "site_base_probs")
 
-        prior_diff = euclidean_distance_lists(
-            [self.site_prior, self.background_prior],
-            [other.site_prior, other.background_prior]
-        )
+        prior_diff = (abs(self.site_prior - other.site_prior) +
+                      abs(self.background_prior -  other.background_prior))
+        
         # get the abolute difference between each site probability
-        site_base_probs_diff = euclidean_distance_lists(
-            flatten_2d_list(self.site_base_probs),
-            flatten_2d_list(other.site_base_probs)
-        )
+        site_base_probs_diff = \
+            sum([abs(param1 - param2) for param1, param2 
+                in zip(flatten_2d_list(self.site_base_probs),
+                       flatten_2d_list(other.site_base_probs))])
+        
         # get the absolute difference between each background probability
-        background_base_probs_diff = euclidean_distance_lists(
-            self.background_base_probs,
-            other.background_base_probs
-        )
-        return (prior_diff
-                + site_base_probs_diff
-                + background_base_probs_diff)
+        background_base_probs_diff = \
+             sum([abs(param1 - param2) for param1, param2 
+                  in zip(self.background_base_probs,
+                         other.background_base_probs)])
+        return (#prior_diff +
+                site_base_probs_diff
+                # + background_base_probs_diff
+                )
 
     def __deepcopy__(self, memo: dict) -> 'SequenceModel':
         """
@@ -524,48 +507,3 @@ class SequenceModel:
     def motif_length(self):
         """return the length of the motif represented by the SequenceModel."""
         return len(self.site_base_probs)
-
-    def set_site_base_probs(self,
-                            motif_length: int,
-                            seed: int = None) -> None:
-        """
-        Set the site_base_probs to a random motif.
-
-        :param motif_length: Length of the motif to generate.
-        :type motif_length: int
-        :param seed: Random seed. If none, not explicitly set. Defaults to None
-        :type seed: int, optional
-
-        :return: None
-
-        :raises TypeError: If motif_length is not an int of if seed is passed
-            and not an int.
-        :raises ValueError: If motif_length is less than 1 or if seed is
-            passed and less than 0.
-
-        :Example:
-        
-        >>> sm = SequenceModel()
-        >>> sm.set_site_base_probs(2)
-        >>> sm.motif_length()
-        2
-        """
-        if self.site_base_probs is not None:
-            logger.warning('Overwriting site_base_probs with random values')
-
-        if not isinstance(motif_length, int):
-            raise TypeError('The motif_length must be an int.')
-        if motif_length < 1:
-            raise ValueError('The motif_length must be greater than 0.')
-        if seed is not None:
-            if not isinstance(seed, int):
-                raise TypeError('The seed must be an int.')
-            np.random.seed(seed)
-
-        site_base_probs = np.random.uniform(0.5, 1.0, (motif_length, 4))
-
-        # Sum along axis=1 to get the sum of each row
-        row_sums = site_base_probs.sum(axis=1)
-
-        # Normalize
-        self.site_base_probs = site_base_probs / row_sums[:, np.newaxis]

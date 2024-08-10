@@ -1,12 +1,13 @@
-from typing import List
+from typing import List, Union
 import logging
 from numpy import isclose, ndarray
 
 logger = logging.getLogger(__name__)
 
-
-def check_probability(probability_vector: List[float],
-                      tolerance: float = 1e-10) -> List[float]:
+# TODO Return True in case its valid and error out otherwise? Change lab code 
+# to be consistent and run tests.
+def check_probability(probability_vector: Union[List[float], ndarray],
+                      tolerance: float = 1e-10) -> Union[List[float], ndarray]:
     """
     Check that a list of probabilities is valid.
 
