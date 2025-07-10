@@ -10,6 +10,18 @@ def test_die_constructor():
     assert my_die.face_probs == face_probs
 
 
+def test_die_constructor_no_args():
+    my_die = Die()
+    assert hasattr(my_die, '_face_probs') == False
+
+
+def test_die_no_args_then_setter():
+    my_die = Die()
+    face_probs = [1 / 6] * 6
+    my_die.face_probs = face_probs
+    assert my_die.face_probs == face_probs
+
+
 def test_die_face_probs_setter():
     face_probs = [1 / 6] * 6
     my_die = Die()

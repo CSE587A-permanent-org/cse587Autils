@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import List, Union, Optional
 import logging
 from math import prod
 import numpy as np
@@ -25,13 +25,8 @@ def safe_exponentiate(base: Union[int, float],
         raise ValueError('The base must be an int or float')
     if not isinstance(exponent, (int, float, np.int_, np.float_)):
         raise ValueError('The exponent must be an int or float')
-    # if base == 0 and exponent != 0:
-    #     raise ValueError('If the count is 0, the probability should not 0. A face '
-    #                      'with no probability of being rolled should not '
-    #                      'be observed. If this occurs as an initial guess, '
-    #                      'you should revise your initial guess.')
-
-    return 1 if exponent == 0 else base ** exponent
+    
+    return 1.0 if exponent == 0 else base ** exponent
 
 
 class Die:
@@ -67,9 +62,8 @@ class Die:
     True
     """
 
-    def __init__(self, face_probs: List[float] = None):
+    def __init__(self, face_probs: Optional[List[float]] = None):
         """See class docstring for details"""
-        self._face_probs = []
         logger.debug('constructing Dice object with '
                      'face_probs: %s', face_probs)
         if face_probs is not None:
@@ -83,6 +77,8 @@ class Die:
         :return: The face probabilities (face_probs)
         :rtype: list of float
         """
+        if not hasattr(self, '_face_probs'):
+            raise AttributeError('face_probs has not been set')
         return self._face_probs
 
     @face_probs.setter
@@ -93,9 +89,18 @@ class Die:
         :param value: The new face probabilities (face_probs)
         :type value: list of float
         """
-        valid_value = check_probability(value)
-        logger.info('setting face_probs to %s', valid_value)
-        self._face_probs = valid_value
+        if not check_probability(value):
+            if not isinstance(value, (list, np.ndarray)):
+                raise TypeError("The value must be a list.")
+            for i in value:
+                if not isinstance(i, (float, int)):
+                    raise TypeError("The value must be a list of floats.")
+                if i < 0 or i > 1:
+                    raise ValueError("The value must be between 0.0 and 1.0")
+            if not np.isclose(sum(value), 1):
+                raise ValueError("The sum of the values must be 1.0")
+        logger.info('setting face_probs to %s', value)
+        self._face_probs = value
 
     def __repr__(self) -> str:
         """
@@ -127,10 +132,14 @@ class Die:
         >>> len(my_die)
         6
         """
+        if not hasattr(self, '_face_probs'):
+            raise AttributeError('face_probs has not been set')
         return len(self._face_probs)
     
     # a more meaningly named alias for __len__
     def num_faces(self) -> int:
+        if not hasattr(self, '_face_probs'):
+            raise AttributeError('face_probs has not been set')
         return len(self._face_probs)
 
     def __getitem__(self, index: int) -> float:
@@ -157,6 +166,8 @@ class Die:
             raise IndexError("The index must be between 0 and "
                              f"{len(self.face_probs) - 1}.")
         return self.face_probs[index]
+        
+    # TODO Consider eliminating __sub__
 
     def __sub__(self, other: 'Die') -> float:
         """
@@ -188,7 +199,7 @@ class Die:
                              "number of faces.")
         return sum(abs(self[i] - other[i]) for i in range(len(self)))
 
-    def roll(self, seed: int = None) -> int:
+    def roll(self, seed: int = 87501) -> int:
         """
         Return the result of rolling the die.
 
@@ -211,7 +222,7 @@ class Die:
             np.random.seed(seed)
         return np.random.choice(range(len(self)), p=self.face_probs)
 
-    def likelihood(self, observed_data: NDArray[np.int_]) -> List[float]:
+    def likelihood(self, observed_data: NDArray[np.int_]) -> float:
         """Calculate the likelihood of the observed data given the Die 
             face probabilities (face_probs).
 
@@ -248,6 +259,7 @@ class Die:
         # if the length of the face counts is greater than the face
         # probabilities, then only calculate the likelihood over the number
         # of faces in the probability list. Warn the user of this.
+        # TODO: Throw an error instead of warning.
         if len(observed_data) > len(self.face_probs):
             logger.warning('The number of observed faces is greater than the '
                            'number of probabilities. The extra observed faces '
@@ -259,7 +271,6 @@ class Die:
         likelihood = prod(map(safe_exponentiate,
                               self.face_probs,
                               observed_data))
-
         return likelihood
 
 

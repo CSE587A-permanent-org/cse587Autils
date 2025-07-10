@@ -75,9 +75,18 @@ class BagOfDice:
         """
         if len(self) != 0 and len(value) != len(self):
             raise ValueError('die_priors and dice must be the same length')
-        valid_value = check_probability(value)
-        logger.info('setting die_priors to %s', valid_value)
-        self._die_priors = valid_value
+        if not check_probability(value):
+            if not isinstance(value, (list, np.ndarray)):
+                raise TypeError("The value must be a list.")
+            for i in value:
+                if not isinstance(i, (float, int)):
+                    raise TypeError("The value must be a list of floats.")
+                if i < 0 or i > 1:
+                    raise ValueError("The value must be between 0.0 and 1.0")
+            if not np.isclose(sum(value), 1):
+                raise ValueError("The sum of the values must be 1.0")
+        logger.info('setting die_priors to %s', value)
+        self._die_priors = value
 
     @property
     def dice(self) -> List[Die]:

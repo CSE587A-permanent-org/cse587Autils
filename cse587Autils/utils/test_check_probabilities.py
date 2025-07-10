@@ -4,18 +4,15 @@ from cse587Autils.utils.check_probability import check_probability
 
 def test_check_probability():
     # Test with valid input
-    assert check_probability([0.5, 0.5]) == [0.5, 0.5]
+    assert check_probability([0.5, 0.5]) == True
     # Test with zero probabilities
-    assert check_probability([0.0, 1.0]) == [0.0, 1.0]
+    assert check_probability([0.0, 1.0]) == True
     # Test with values not between 0 and 1
-    with pytest.raises(ValueError, match=r"The value must be between 0.0 and 1.0"):
-        check_probability([1.5, -0.5])
+    assert check_probability([1.5, -0.5]) == False
     # Test with a non-float
-    with pytest.raises(TypeError, match=r"The value must be a list of floats."):
-        check_probability([0.5, "0.5"])
+    assert check_probability([0.5, "0.5"]) == False
     # Test with a non-list
-    with pytest.raises(TypeError, match=r"The value must be a list."):
-        check_probability("not a list")
+    assert check_probability("not a list") == False
 
 def test_check_probability_logging(caplog):
     caplog.set_level(logging.DEBUG)

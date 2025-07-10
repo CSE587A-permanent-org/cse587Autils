@@ -167,8 +167,17 @@ class SequenceModel:
                     '1 - site_prior')
         rounded_site_prior = round(prior, self.precision)
         rounded_background_prior = round(1.0 - prior, self.precision)
-        check_probability([rounded_site_prior, rounded_background_prior],
-                          tolerance=self.tolerance)
+        prior_list = [rounded_site_prior, rounded_background_prior]
+        if not check_probability(prior_list, tolerance=self.tolerance):
+            if not isinstance(prior_list, (list, np.ndarray)):
+                raise TypeError("The value must be a list.")
+            for i in prior_list:
+                if not isinstance(i, (float, int)):
+                    raise TypeError("The value must be a list of floats.")
+                if i < 0 or i > 1:
+                    raise ValueError("The value must be between 0.0 and 1.0")
+            if not np.isclose(sum(prior_list), 1, atol=self.tolerance):
+                raise ValueError("The sum of the values must be 1.0")
         self._site_prior = rounded_site_prior
         self._background_prior = rounded_background_prior
 
@@ -242,7 +251,16 @@ class SequenceModel:
             if not len(site_prob) == 4:
                 raise ValueError('Each element in `site_base_probs` must '
                                  'be length 4.')
-            check_probability(site_prob, tolerance=self.tolerance)
+            if not check_probability(site_prob, tolerance=self.tolerance):
+                if not isinstance(site_prob, (list, np.ndarray)):
+                    raise TypeError("The value must be a list.")
+                for i in site_prob:
+                    if not isinstance(i, (float, int)):
+                        raise TypeError("The value must be a list of floats.")
+                    if i < 0 or i > 1:
+                        raise ValueError("The value must be between 0.0 and 1.0")
+                if not np.isclose(sum(site_prob), 1, atol=self.tolerance):
+                    raise ValueError("The sum of the values must be 1.0")
         self._site_base_probs = site_base_probs
 
     @property
@@ -275,7 +293,16 @@ class SequenceModel:
             raise TypeError('The value must be a list.')
         if not len(background_base_probs) == 4:
             raise ValueError('The value must be length 4.')
-        check_probability(background_base_probs, tolerance=self.tolerance)
+        if not check_probability(background_base_probs, tolerance=self.tolerance):
+            if not isinstance(background_base_probs, (list, np.ndarray)):
+                raise TypeError("The value must be a list.")
+            for i in background_base_probs:
+                if not isinstance(i, (float, int)):
+                    raise TypeError("The value must be a list of floats.")
+                if i < 0 or i > 1:
+                    raise ValueError("The value must be between 0.0 and 1.0")
+            if not np.isclose(sum(background_base_probs), 1, atol=self.tolerance):
+                raise ValueError("The sum of the values must be 1.0")
         self._background_base_probs = background_base_probs
 
     def __repr__(self) -> str:
