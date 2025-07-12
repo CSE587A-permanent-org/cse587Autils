@@ -78,11 +78,10 @@ def test_bag_of_dice_iteration():
 
 
 def test_bag_of_dice_draw():
-    seed = 42
     fair_die = Die([1 / 6] * 6)
     biased_die = Die([0.9, 0.1])
     my_bag = BagOfDice([0.5, 0.5], [fair_die, biased_die])
-    result = my_bag.draw(5, seed)
+    result = my_bag.draw(5, seed=42)
     assert sum(result) == 5
 
 

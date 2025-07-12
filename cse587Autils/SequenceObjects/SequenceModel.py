@@ -7,8 +7,6 @@ import numpy as np
 from numpy.typing import NDArray
 from cse587Autils.utils.check_probability import check_probability
 from cse587Autils.utils.flatten_2d_list import flatten_2d_list
-from cse587Autils.utils.euclidean_distance_lists \
-    import euclidean_distance_lists
 
 logger = logging.getLogger(__name__)
 
@@ -386,8 +384,7 @@ class SequenceModel:
         differences between all pairs of corresponding parameters in the two
         sequence_model objects.
 
-        :param other: The other SequenceModel to compare to.
-        :type other: SequenceModel
+        :param other (SequenceModel): The other SequenceModel to compare to.
 
         :raises TypeError: If the other object is not a SequenceModel.
         :raises ValueError: If the two SequenceModels do not have the same
@@ -447,11 +444,10 @@ class SequenceModel:
             references within the object structure. If an object has already
             been copied, the previously created copy is returned.
 
-        :param memo: Dictionary used for memoization to prevent duplicate
+        :param memo (dict): Dictionary used for memoization to prevent duplicate
             copies of objects. This is required and used by the copy.deepcopy
             method. It does not need o be passed explicitly by the user
             (see the example below)
-        :type memo: dict
 
         :raises TypeError: If any attribute is of an unsupported type for
             deepcopy.
@@ -512,8 +508,7 @@ class SequenceModel:
         __sub__ method, which means if there are two SequenceModels, sm1 and
         sm2, sm1 - sm2 is equivalent to sm1.diff(sm2).
 
-        :param other: A SequenceModel to compare to.
-        :type other: SequenceModel
+        :param other (SequenceModel): A SequenceModel to compare to.
 
         :return: The difference between the two SequenceModels.
         :rtype: float

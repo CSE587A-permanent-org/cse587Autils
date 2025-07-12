@@ -4,8 +4,7 @@ def flatten_2d_list(lst: (list[list], ndarray)) -> list:
     """
     flatten a list of lists into a single list
 
-    :params lst: list of lists
-    :type lst: list[list]
+    :param lst (list[list]): list of lists
 
     :return: flattened list
     :rtype: list

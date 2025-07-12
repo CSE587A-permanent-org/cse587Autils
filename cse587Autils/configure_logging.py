@@ -8,12 +8,9 @@ def configure_logging(level=logging.INFO,
                       filename: str = None):
     """Configure logging to print to the console and/or a file.
 
-    :param level: The logging level, defaults to logging.INFO
-    :type level: int, optional
-    :param to_file: Whether to log to a file, defaults to False
-    :type to_file: bool, optional
-    :param filename: The name of the file to log to, defaults to None
-    :type filename: str, optional
+    :param level (int, optional): The logging level, defaults to logging.INFO
+    :param to_file (bool, optional): Whether to log to a file, defaults to False
+    :param filename (str, optional): The name of the file to log to, defaults to None
 
     :raises ValueError: If the logging level is not valid
     :raises ValueError: If to_file is not a boolean

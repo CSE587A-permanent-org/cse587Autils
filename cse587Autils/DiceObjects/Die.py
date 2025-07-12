@@ -12,10 +12,8 @@ def safe_exponentiate(base: Union[int, float],
                       exponent: Union[int, float]) -> Union[int, float]:
     """Safely exponentiates the base to the given exponent
 
-    :param base: The base to exponentiate
-    :type base: int, float]
-    :param exponent: the power to raise the base to
-    :type exponent: int, float]
+    :param base (Union[int, float]): The base to exponentiate
+    :param exponent (Union[int, float]): the power to raise the base to
     :return: The result of raising the given base to the given exponent.
         If the exponent is zero, the result is 1.
     :rtype: [int, float]
@@ -33,8 +31,7 @@ class Die:
     """
     A class used to represent a dice with n faces, each with probability p.
 
-    :param face_probs: The probabilities of the faces
-    :type face_probs: list of float
+    :param face_probs (list of float): The probabilities of the faces
 
     :Examples:
 
@@ -86,8 +83,7 @@ class Die:
         """
         The setter of the `face_probs` attribute.
 
-        :param value: The new face probabilities (face_probs)
-        :type value: list of float
+        :param value (list of float): The new face probabilities (face_probs)
         """
         if not check_probability(value):
             if not isinstance(value, (list, np.ndarray)):
@@ -146,8 +142,7 @@ class Die:
         """
         Return the probability of the face at a given index.
 
-        :param index: The index of the face
-        :type index: int
+        :param index (int): The index of the face
         :raise TypeError: If the index is not an integer
         :raise IndexError: If the index is out of range
         :return: The probability of the face at the given index
@@ -175,8 +170,7 @@ class Die:
             Die. Sum the result. This provides a measure of distance between
             two Die.
 
-        :param other: The other Die
-        :type other: Die
+        :param other (Die): The other Die
         :return: The sum of the differences between the face probabilities
             (face_probs) of two Die
         :rtype: float
@@ -203,8 +197,7 @@ class Die:
         """
         Return the result of rolling the die.
 
-        :param seed: The seed for the random number generator
-        :type seed: int, optional
+        :param seed (int, optional): The seed for the random number generator
 
         :return: The result of rolling the die
         :rtype: int
@@ -226,11 +219,10 @@ class Die:
         """Calculate the likelihood of the observed data given the Die 
             face probabilities (face_probs).
 
-        :param observed_data: A list of observed face counts where the index
+        :param observed_data (NDArray[:py:class:`numpy.int_`]): A list of observed face counts where the index
             of each element corresponds to the face, and the count is
             the number of times that face was observed. The sum of the counts
             is the number of times the die was rolled.
-        :type observed_data: NDArray[:py:class:`numpy.int_`]
 
         :return: The likelihood of the observed bin counts given the 
             face probabilities.

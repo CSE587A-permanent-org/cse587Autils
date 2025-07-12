@@ -11,8 +11,7 @@ def check_probability(probability_vector: Union[List[float], ndarray],
     """
     Check that a list of probabilities is valid.
 
-    :param probability_vector: The probabilities to check.
-    :type probability_vector: list of float
+    :param probability_vector (Union[List[float], ndarray]): The probabilities to check.
     :return: True if the probability_vector is valid, False otherwise.
     :rtype: bool
 

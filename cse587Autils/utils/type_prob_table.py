@@ -9,14 +9,12 @@ def type_prob_table(experiment_data: List[List[int]], posteriors: List[float]):
         case anyone wants it. This is untested and more of an outline than
         a function.
 
-    :param experiment_data: A list of lists of integers. Each list of integers
+    :param experiment_data (List[List[int]]): A list of lists of integers. Each list of integers
         represents the results of a drawing a die, rolling it some number of
         times, and then aggregating how many times each face (represented by
         the index in the list) was rolled.
-    :type experiment_data: List[List[int]]
-    :param posteriors: A list of floats representing the probability that the
+    :param posteriors (List[float]): A list of floats representing the probability that the
         die used to generate the data
-    :type posteriors: List[float]
 
     :return: A pandas dataframe with the following columns:
         - Trial 1, Trial 2, ... Trial N: The bin counts for each trial

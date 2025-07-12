@@ -69,11 +69,17 @@ def test_die_roll():
     result = my_die.roll()
     assert result in set(range(6))
 
+def test_die_roll_deterministic():
+    np.random.seed(42)
+    face_probs = [0, 0, 1.0, 0]
+    my_die = Die(face_probs)
+    result = my_die.roll()
+    assert result == 2
 
 def test_die_likelihood():
-    face_counts = np.array([1, 0, 0, 0, 0, 0])
-    face_probs = [1 / 6] * len(face_counts)
+    face_counts = np.array([1, 0, 2, 0])
+    face_probs = [0.1, 0.2, 0.3, 0.4]
     my_die = Die(face_probs)
     likelihood = my_die.likelihood(face_counts)
-    expected_likelihood = (1 / 6) ** 1 * (5 / 6) ** 0
+    expected_likelihood = (0.1) ** 1 * (0.3) ** 2
     assert_allclose(likelihood, expected_likelihood)

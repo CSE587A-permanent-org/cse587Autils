@@ -1,5 +1,4 @@
-from typing import Dict, List, Tuple
-from collections import defaultdict
+from typing import Dict, List, Tuple, Optional, Union
 import logging
 import numpy as np
 from numpy.typing import NDArray
@@ -8,17 +7,14 @@ from cse587Autils.DiceObjects.Die import Die
 
 logger = logging.getLogger(__name__)
 
-
 class BagOfDice:
     """
     A class used to represent a bag of dice. Each die in the bag has n faces 
     each with probability p. The chance of drawing a die from the bag is
     determined by the probability of the die type.
 
-    :param die_priors: The probabilities of the die types
-    :type die_priors: list of float
-    :param dice: The dice objects in the bag
-    :type dice: list of Die objects
+    :param die_priors (list of float): The probabilities of the die types
+    :param dice (list of Die objects): The dice objects in the bag
 
     :Examples:
 
@@ -35,25 +31,24 @@ class BagOfDice:
     >>> # The face probabilities of the first die, rounded to 2 decimal places.
     >>> [round(prob, 2) for prob in my_bag[0][1]]
     [0.17, 0.17, 0.17, 0.17, 0.17, 0.17]
-    >>> trial_results = my_bag.draw(3) # Draw a die, roll it 3 times
-    >>> isinstance(trial_results, dict)
-    True
+    >>> trial_results = my_bag.draw(3, seed=61) # Draw a die, roll it 3 times
+    
     """
 
     def __init__(self,
-                 die_priors: List[float] = None,
-                 dice: List[Die] = None) -> None:
+                 die_priors: Optional[List[float]] = None,
+                 dice: Optional[List[Die]] = None) -> None:
         """
         See class docstring for details
         """
-        self._die_priors = []
-        self._dice = []
         logger.debug('constructing BagOfDice object with die_probabilties: '
                      '%s, dice: %s', die_priors, dice)
-        if die_priors is not None:
-            self.die_priors = die_priors
-        if dice is not None:
-            self.dice = dice
+        if die_priors is None:
+            die_priors = []
+        if dice is None:
+            dice = []
+        self.die_priors = die_priors
+        self.dice = dice
 
     @property
     def die_priors(self) -> List[float]:
@@ -66,27 +61,26 @@ class BagOfDice:
         return self._die_priors
 
     @die_priors.setter
-    def die_priors(self, value: List[float]) -> None:
+    def die_priors(self, die_priors_list: List[float]) -> None:
         """
         The setter of the `die_priors` attribute.
 
-        :param value: The new die priors
-        :type value: list of float
+        :param value (list of float): The new die priors
         """
-        if len(self) != 0 and len(value) != len(self):
+        if hasattr(self, '_die_priors') and len(self) != 0 and len(die_priors_list) != len(self):
             raise ValueError('die_priors and dice must be the same length')
-        if not check_probability(value):
-            if not isinstance(value, (list, np.ndarray)):
+        if len(die_priors_list) > 0 and not check_probability(die_priors_list):
+            if not isinstance(die_priors_list, list):
                 raise TypeError("The value must be a list.")
-            for i in value:
-                if not isinstance(i, (float, int)):
-                    raise TypeError("The value must be a list of floats.")
+            for i in die_priors_list:
+                if not isinstance(i, float):
+                    raise TypeError("The priors must be a list of floats.")
                 if i < 0 or i > 1:
-                    raise ValueError("The value must be between 0.0 and 1.0")
-            if not np.isclose(sum(value), 1):
+                    raise ValueError("Each prior probability must be between 0.0 and 1.0")
+            if not np.isclose(sum(die_priors_list), 1):
                 raise ValueError("The sum of the values must be 1.0")
-        logger.info('setting die_priors to %s', value)
-        self._die_priors = value
+        logger.info('setting die_priors to %s', die_priors_list)
+        self._die_priors = die_priors_list
 
     @property
     def dice(self) -> List[Die]:
@@ -99,22 +93,22 @@ class BagOfDice:
         return self._dice
 
     @dice.setter
-    def dice(self, value: List[Die]) -> None:
+    def dice(self, list_of_dice: List[Die]) -> None:
         """
         The setter of the `dice` attribute.
 
-        :param value: The new dice
-        :type value: list of Die
+        :param value (list of Die): The new dice
         """
-        if len(self) != 0 and len(value) != len(self):
-            raise ValueError('die_priors and dice must be the same length')
-        if not isinstance(value, list):
+        if len(self) != 0 and len(list_of_dice) != len(self):
+            raise ValueError(f'You cannot change the number of dice in the bag. '
+                             f'Current number: {len(self)}')
+        if not isinstance(list_of_dice, list):
             raise TypeError("The `dice` attribute must be a list "
                             "of `Die` objects.")
-        for i, element in enumerate(value):
+        for i, element in enumerate(list_of_dice):
             if not isinstance(element, Die):
                 raise TypeError(f"element {i} must be a Die object.")
-        self._dice = value
+        self._dice = list_of_dice
 
     def __repr__(self) -> str:
         """
@@ -129,7 +123,7 @@ class BagOfDice:
         >>> biased_die = Die([0.9, 0.1])
         >>> my_bag = BagOfDice([0.5, 0.5], [fair_die, biased_die])
         >>> my_bag
-        BagOfDice(die_priors=[0.5, 0.5], dice=[Die(face_probs=[0.17, 0.17, 0.17, 0.17, 0.17, 0.17]), Die(face_probs=[0.9, 0.1])]) # noqa
+        BagOfDice(die_priors=[0.5, 0.5], dice=[Die([0.1667, 0.1667, 0.1667, 0.1667, 0.1667, 0.1667]), Die([0.9, 0.1])])
         """
         return f"BagOfDice(die_priors={self.die_priors}, dice={self.dice})"
 
@@ -149,13 +143,13 @@ class BagOfDice:
         2
         """
         return len(self._die_priors)
-
+    # This getter does not return the Die object, as might be expected, but rather
+    # a Tuple of it's prior and the die object. But that's what diceEM expects.
     def __getitem__(self, index: int) -> Tuple:
         """
         Return the die_prior and face_probs of the die at a given index.
 
-        :param index: The index of the die in the bag
-        :type index: int
+        :param index (int): The index of the die in the bag
         :raise IndexError: If the index is out of range
         :return: The die_prior and face_probs of the die at the given index
         :rtype: tuple of float and list of float
@@ -167,29 +161,29 @@ class BagOfDice:
         >>> my_bag = BagOfDice([0.4, 0.6], [fair_die, biased_die])
 
         >>> my_bag[0]
-        [0.4, [0.17, 0.17, 0.17, 0.17, 0.17, 0.17]
+        (0.4, Die([0.1667, 0.1667, 0.1667, 0.1667, 0.1667, 0.1667]))
 
-        >>> my_bag[0][1]
-        [0.6, [0.9, 0.1]]]
-
+        
         >>> # The face probabilities (face_probs) of the first die, rounded to 2 decimal places.
-        >>> [round(prob, 2) for prob in my_bag[0][0]]
-        [0.9, 0.1]
+        >>> [round(prob, 2) for prob in my_bag[0][1].face_probs]
+        [0.17, 0.17, 0.17, 0.17, 0.17, 0.17]
         >>> my_bag[0][0] # The die prior of the first die.
-        [0.17,0.17,0.17,0.17,0.17,0.17]
+        0.4
         """
         if index < 0 or index >= len(self):
             raise IndexError("The index is out of range.")
         return self.die_priors[index], self.dice[index]
 
+    # This is fancy, but hides what's happening under the hood.
+    # TODO: Change diceEM to calculate the difference of absolute values directly
+    # instead of using this method. Then delete this method.
     def __sub__(self, other: 'BagOfDice') -> float:
         """
         This calculates the distance, in terms of absolute value, between the 
         die priors of two bags of dice. The value returned is the sum of the 
         absolute differences between the die priors of the two bags of dice.
 
-        :param other: The other bag of dice
-        :type other: BagOfDice
+        :param other (BagOfDice): The other bag of dice
         :return: The difference in die priors
         :rtype: BagOfDice
 
@@ -200,7 +194,7 @@ class BagOfDice:
         >>> my_bag = BagOfDice([0.5, 0.5], [fair_die, biased_die])
         >>> other_bag = BagOfDice([0.4, 0.6], [fair_die, biased_die])
         >>> my_bag - other_bag
-        BagOfDice([0.1, -0.1], [fair_die, biased_die])
+        0.19999999999999996
         """
         if not isinstance(other, BagOfDice):
             raise TypeError(
@@ -252,8 +246,8 @@ class BagOfDice:
         >>> my_bag = BagOfDice([0.5, 0.5], [fair_die, biased_die])
         >>> for die_details in my_bag:
         ...     print(die_details)
-        [0.5, [0.17,0.17,0.17,0.17,0.17,0.17]]
-        [0.5, [0.9, 0.1]]
+        (0.5, Die([0.1667, 0.1667, 0.1667, 0.1667, 0.1667, 0.1667]))
+        (0.5, Die([0.9, 0.1]))
         """
         if self._iterator_index < len(self.dice):
             # We still have some dice to return
@@ -263,27 +257,24 @@ class BagOfDice:
         else:
             # No more dice to return, raise StopIteration
             raise StopIteration
-
+    # Check whether the sort function is ever called.
     def sort(self, reverse: bool = False) -> None:
         """sort the bag of dice by die prior
 
-        :param reverse: whether to sort in reverse order, defaults to False
-        :type reverse: bool, optional
+        :param reverse (bool, optional): whether to sort in reverse order, defaults to False
         """
         sort_order = sorted(range(len(self)),
                             key=lambda x: self.die_priors[x])
         self.die_priors = [self.die_priors[i] for i in sort_order]
         self.dice = [self.dice[i] for i in sort_order]
 
-    def draw(self, num_rolls: int, seed: int = None) -> NDArray[np.int_]:
+    def draw(self, num_rolls: int, seed: Optional[int] = None) -> NDArray[np.int_]:
         """Randomly select a die from the bag and roll it.
 
         Record the faces (keys) and counts (values) of the rolls.
 
-        :param num_rolls: The number of rolls
-        :type num_rolls: int
-        :param seed: The random seed
-        :type seed: int, optional
+        :param num_rolls (int): The number of rolls
+        :param seed (int, optional): The random seed
         :return: The face counts which result from rolling the drawn die
           `num_rolls` times
         :rtype: NDArray[:py:class:`numpy.int_`]
@@ -295,13 +286,12 @@ class BagOfDice:
         :Examples:
 
         >>> import numpy as np
-        >>> np.random.seed(42)
         >>> fair_die = Die([1/6]*6)
-        >>> biased_die = Die([0.9, 0.1])
-        >>> my_bag = BagOfDice([0.5, 0.5], [fair_die, biased_die])
-        >>> trial = my_bag.draw(5)
-        >>> sum(trial.values()) == 5
-        True
+        >>> biased_die = Die([0.2, 0.5, 0.3])
+        >>> my_bag = BagOfDice([0.3, 0.7], [fair_die, biased_die])
+        >>> trial = my_bag.draw(12, seed=61)
+        >>> trial
+        array([0, 1, 2, 1, 1, 0])
         """
         if seed:
             np.random.seed(seed)
@@ -310,33 +300,24 @@ class BagOfDice:
         die_index = np.random.choice(len(self), p=self.die_priors)
         logging.debug('drawing die %s', die_index)
 
-        # defaultdict automatically initializes missing keys with
-        # the default value (0 in this case).
-        trial = defaultdict(int)
+        # Initialize array with size equal to max faces across all dice
+        max_faces = max([len(die) for die in self.dice])
+        trial = np.zeros(max_faces, dtype=int)
         for _ in range(num_rolls):
             face = self.dice[die_index].roll()
             trial[face] += 1
 
-        arr = np.array([trial.get(i, 0)
-                        for i
-                        in range(max(trial.keys())+1)])
-
-        difference = max([len(x) for x in self.dice]) - len(arr)
-        if difference > 0:
-            arr = np.append(arr, np.zeros(difference))
-
-        return arr
+        return trial
 
     def likelihood(self, observed_data: List[NDArray[np.int_]]):
         """Calculate the likelihood of the observed bin counts given the bag of
         dice.
 
-        :param observed_data: A list of observed bin counts where each element
+        :param observed_data (List[NDArray[:py:class:`numpy.int_`]]): A list of observed bin counts where each element
             of the list is a list of observed face counts where the index of
             each element corresponds to the face, and the count is the number
             of times that face was observed. The sum of the counts is the
             number of times the die was rolled.
-        :type observed_data: List[NDArray[:py:class:`numpy.int_`]]
         :return: The likelihood of the observed bin counts given the bag of
             dice.
         :rtype: float

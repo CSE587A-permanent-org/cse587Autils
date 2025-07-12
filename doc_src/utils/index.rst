@@ -6,5 +6,4 @@ utils
 
    check_probability
    flatten_2d_list
-   euclidean_distance_lists
 
