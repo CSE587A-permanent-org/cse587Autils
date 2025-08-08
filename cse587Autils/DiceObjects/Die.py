@@ -193,7 +193,7 @@ class Die:
                              "number of faces.")
         return sum(abs(self[i] - other[i]) for i in range(len(self)))
 
-    def roll(self, seed: int = 87501) -> int:
+    def roll(self, seed: Optional[int] = None) -> int:
         """
         Return the result of rolling the die.
 

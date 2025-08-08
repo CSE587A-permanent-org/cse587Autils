@@ -291,7 +291,7 @@ class BagOfDice:
         >>> my_bag = BagOfDice([0.3, 0.7], [fair_die, biased_die])
         >>> trial = my_bag.draw(12, seed=61)
         >>> trial
-        array([0, 1, 2, 1, 1, 0])
+        array([3, 5, 4, 0, 0, 0])
         """
         if seed:
             np.random.seed(seed)
@@ -331,7 +331,7 @@ class BagOfDice:
         >>> biased_die = Die([0.9, 0.1])
         >>> my_bag = BagOfDice([0.5, 0.5], [fair_die, biased_die])
         >>> observed_data = [array([1, 2, 3, 4, 5, 6]), array([1, 2])]
-        >>> calculate_likelihood(observed_data, my_bag)
+        >>> my_bag.likelihood(observed_data) 
         1.0684028233559576e-24
         """
         # check input types
