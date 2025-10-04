@@ -12,7 +12,7 @@ class HMM:
     A class to represent a Hidden Markov Model.
 
     An HMM consists of:
-    - states: List of state names
+    - states: List of strings representing state names
     - initial_state_probs: Probability distribution over initial states
     - transition_matrix: State transition probability matrix
     - alphabet: List of emission symbols
@@ -169,7 +169,7 @@ class HMM:
         sequences = []
 
         with open(fasta_file, 'r') as f:
-            current_seq = []
+            current_seq: list = []
             for line in f:
                 line = line.strip()
                 if line.startswith('>'):
