@@ -25,7 +25,7 @@ class SequenceModel:
     >>> background_base_probs = [1/4]*4
     >>> sm = SequenceModel(site_prior, site_base_probs, background_base_probs)
 
-    The motif_length property is the length of the site_base_probs and an
+    The motif_length property is the length of the site_base_probs and can
     also be accessed by len(sm)
 
     >>> sm.motif_length() == len(sm) == 2
@@ -252,10 +252,10 @@ class SequenceModel:
             if not check_probability(site_prob, tolerance=self.tolerance):
                 if not isinstance(site_prob, (list, np.ndarray)):
                     raise TypeError("The value must be a list.")
-                for i in site_prob:
-                    if not isinstance(i, (float, int)):
+                for base_prob in site_prob:
+                    if not isinstance(base_prob, (float, int)):
                         raise TypeError("The value must be a list of floats.")
-                    if i < 0 or i > 1:
+                    if base_prob < 0 or base_prob > 1:
                         raise ValueError("The value must be between 0.0 and 1.0")
                 if not np.isclose(sum(site_prob), 1, atol=self.tolerance):
                     raise ValueError("The sum of the values must be 1.0")
@@ -446,7 +446,7 @@ class SequenceModel:
 
         :param memo (dict): Dictionary used for memoization to prevent duplicate
             copies of objects. This is required and used by the copy.deepcopy
-            method. It does not need o be passed explicitly by the user
+            method. It does not need to be passed explicitly by the user
             (see the example below)
 
         :raises TypeError: If any attribute is of an unsupported type for

@@ -3,7 +3,7 @@
 	"image": "ghcr.io/michael-brent/compbio-base:latest",
 
 	// 👇 Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "cd ${containerWorkspaceFolder} && poetry config virtualenvs.in-project true && poetry install",
+	"postStartCommand": "cd ${containerWorkspaceFolder} && poetry config virtualenvs.in-project true && poetry install",
 
 	// 👇 Configure tool-specific properties.
 	"customizations": {
